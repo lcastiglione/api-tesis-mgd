@@ -1,12 +1,25 @@
 {
-  "public_file_bytes": 1703673856,
-  "expected_bytes": 1923264512,
-  "public_file_sha256": "c063923e78d35744713137dcd5e97936d667d2924ea33ac2e6ab4d33c02f3541",
-  "expected_sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
-  "quick_check_error": "database disk image is malformed",
-  "download_url": "https://drive.google.com/file/d/1bclq58C1jxSJT-LWtqxDsbzDpWOGsAX_/view?usp=sharing",
+  "download_url": "https://drive.google.com/file/d/16IpEVijsXvy_kTaYY7l2_zUHkxaDIr5g/view?usp=sharing",
   "anonymous_download": true,
   "cookies_used": false,
-  "matches_expected_database": false,
-  "status": "Awaiting complete public SQLite file; existing integrity requirements preserved."
+  "started_with_empty_data_directory": true,
+  "public_file_bytes": 1923264512,
+  "expected_bytes": 1923264512,
+  "public_file_sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
+  "expected_sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
+  "quick_check": "ok",
+  "matches_expected_database": true,
+  "http_statuses": {
+    "/health": 200,
+    "/docs": 200,
+    "/api/v1/instruments": 200,
+    "/api/v1/configuration-counts?instrument=SPY": 200,
+    "/tutorials/api": 200,
+    "/api/v1/verify-case": 200
+  },
+  "case_verification_passed": true,
+  "manual_version": 6,
+  "status": "Anonymous download and API startup verified; original integrity requirements preserved.",
+  "second_start_reused_local_database": true,
+  "database_unchanged_after_restart": true
 }

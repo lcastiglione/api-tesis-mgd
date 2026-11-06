@@ -2,12 +2,6 @@
 
 Entrega **2.0.0** · API **2.0.0** · manual **v6**.
 
-> **Advertencia:** el archivo actualmente publicado en Drive está incompleto.
-> La descarga anónima funciona, pero la API rechaza esa copia porque no coincide
-> con el tamaño y SHA-256 esperados y SQLite informa daño. Falta reemplazar el
-> archivo público por la base completa. Mientras tanto, se puede colocar una
-> copia válida de `study.sqlite` en `data/`.
-
 El proyecto permite consultar la base analítica por HTTP, repetir un caso con el
 motor Python y comprobar los análisis en memoria. Incluye motor v9 y SQLite v2r3:
 siete ETF, 189 configuraciones, 945 ejecuciones y 10.379.124 observaciones diarias.
@@ -54,10 +48,15 @@ al equipo donde se ejecuta ese navegador.
 
 ## Descarga automática de la base
 
-La base se descarga desde [el archivo público de Google Drive](https://drive.google.com/file/d/1bclq58C1jxSJT-LWtqxDsbzDpWOGsAX_/view?usp=sharing).
+La base se descarga desde [el archivo público de Google Drive](https://drive.google.com/file/d/16IpEVijsXvy_kTaYY7l2_zUHkxaDIr5g/view?usp=sharing).
 El enlace está incluido en `.env.example` y en `data/manifest.json`.
 El formato configurado es SQLite sin comprimir. La base y los archivos Excel
 quedan fuera de GitHub y de la imagen Docker.
+
+La descarga completa y el arranque de la API se verificaron sin credenciales.
+El archivo conserva los 1.923.264.512 bytes y el SHA-256 del manifiesto, y SQLite
+superó la comprobación de integridad. La evidencia está en
+`docs/validation/public-download.json`.
 
 El usuario solo ejecuta Docker: **no necesita cuenta de Google, OAuth, claves
 de API, cookies del navegador ni configurar credenciales**. Docker instala las
@@ -82,7 +81,7 @@ configuración. Para cambiar la escucha o reemplazar el enlace se copia
 `.env.example` a `.env`:
 
 ```dotenv
-DATABASE_URL=https://drive.google.com/file/d/1bclq58C1jxSJT-LWtqxDsbzDpWOGsAX_/view?usp=sharing
+DATABASE_URL=https://drive.google.com/file/d/16IpEVijsXvy_kTaYY7l2_zUHkxaDIr5g/view?usp=sharing
 API_HOST=127.0.0.1
 API_PORT=8000
 LOCAL_UID=1000
@@ -93,6 +92,11 @@ LOCAL_GID=1000
 reemplaza. `API_HOST` puede ser la dirección del equipo para acceder desde otro
 dispositivo. En Linux, `id -u` e `id -g` permiten completar los identificadores
 locales si son distintos de 1000.
+
+`git pull` no modifica un `.env` existente. Después de actualizar el proyecto,
+se reemplaza la línea `DATABASE_URL` de ese archivo por el enlace vigente de
+`.env.example`, conservando los demás ajustes. Si la base local ya es válida,
+el arranque la reutiliza y no vuelve a descargarla.
 
 ## Consultas por parámetros
 

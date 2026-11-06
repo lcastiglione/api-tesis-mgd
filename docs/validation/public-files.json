@@ -11,7 +11,7 @@
     {
       "file": ".env.example",
       "bytes": 379,
-      "sha256": "558d0358bf7acfa04b83d507988e80c37042b693c448694b442c719afd3a078d"
+      "sha256": "c4074fec8e4958ec4f2479eb57ed347816b72b1fb6a30e60dc88879e0294f31e"
     },
     {
       "file": ".gitattributes",
@@ -30,8 +30,8 @@
     },
     {
       "file": "README.md",
-      "bytes": 8863,
-      "sha256": "3c03017f84371820dd1ec0bf6c54fb2406316f1480e0fb31dc63a15cfb0095cf"
+      "bytes": 9050,
+      "sha256": "8bd21c5967c415debcbddfa09b9e1cb001e1d4b23930c131e987f5a68b67a78e"
     },
     {
       "file": "VERSION",
@@ -145,8 +145,8 @@
     },
     {
       "file": "data/manifest.json",
-      "bytes": 653,
-      "sha256": "bab29ad140f1273d6aeec67b36036399aecb08a5e34e97e01a78943fb7ce7bb6"
+      "bytes": 678,
+      "sha256": "9d5ad3eaed2dc12ccc642412d663e522b138fe74ce6183a57f27dec7d1b09822"
     },
     {
       "file": "docs/api-examples.json",
@@ -180,8 +180,8 @@
     },
     {
       "file": "docs/validation/README.md",
-      "bytes": 1397,
-      "sha256": "259d2ca4146cdb83358d7821f6f848ef1ef11125a008cc894c365616c630cf36"
+      "bytes": 1466,
+      "sha256": "f0798367b07312c59123f11767ca42a3fdc8efe0e09ca7ca872ce8efffb78607"
     },
     {
       "file": "docs/validation/api-tests-github.txt",
@@ -200,8 +200,8 @@
     },
     {
       "file": "docs/validation/public-download.json",
-      "bytes": 603,
-      "sha256": "23601017c143babbe2272bc33303acb03dd38ced0d0aed50bffe7b87000a9923"
+      "bytes": 977,
+      "sha256": "434cfee31b94ffcd7668e39a5d8f1a3562e8395bcd9ff6800c8e70e5844fc8fb"
     },
     {
       "file": "requirements-analysis.txt",
