@@ -9,8 +9,5 @@ services:
       DATABASE_PATH: /data/study.sqlite
       DATABASE_URL: ${DATABASE_URL:-}
     volumes:
-      - study-data:/data
+      - ./data:/data
     restart: unless-stopped
-
-volumes:
-  study-data:

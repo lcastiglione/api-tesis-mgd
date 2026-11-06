@@ -11,14 +11,13 @@ COPY docs ./docs
 RUN useradd --uid 10001 --create-home study \
     && mkdir -p /data \
     && chown study:study /data
-USER study
 EXPOSE 8000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=4)"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/status',timeout=4)"
+ENTRYPOINT ["python","-m","app.entrypoint"]
 CMD ["uvicorn","app.main:app","--host","0.0.0.0","--port","8000","--workers","1"]
 
 FROM runtime AS test
 USER root
 RUN pip install --no-cache-dir httpx==0.28.1 pytest==9.0.2
 COPY tests ./tests
-USER study
 CMD ["python","-m","pytest","-q","-p","no:cacheprovider","tests"]
