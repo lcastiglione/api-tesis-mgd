@@ -1,0 +1,237 @@
+{
+  "version": "2.0.0",
+  "manual": "api-v6",
+  "scope": "Código del motor y la API, configuración Docker, pruebas y manual. Excluye SQLite, Excel, credenciales e historial privado. No incluye su propia huella.",
+  "files": [
+    {
+      "file": ".dockerignore",
+      "bytes": 203,
+      "sha256": "06ff542fdc9672152cb35d0efb78e60bd69ac0e59c3d5d451911eb326e0c895e"
+    },
+    {
+      "file": ".env.example",
+      "bytes": 379,
+      "sha256": "558d0358bf7acfa04b83d507988e80c37042b693c448694b442c719afd3a078d"
+    },
+    {
+      "file": ".gitattributes",
+      "bytes": 26,
+      "sha256": "9618185d97a7b73972851bc179ac276080c298f79adbc1847951e647f4254c27"
+    },
+    {
+      "file": ".gitignore",
+      "bytes": 468,
+      "sha256": "d821fa973e2df5aba2c764357e161960a7d34781d5a269db7a32acdaa34999f6"
+    },
+    {
+      "file": "Dockerfile",
+      "bytes": 858,
+      "sha256": "6c638d739c4af1b84591268d2095cdb39bb82af74773b309ee4dbb1599d84211"
+    },
+    {
+      "file": "README.md",
+      "bytes": 8863,
+      "sha256": "3c03017f84371820dd1ec0bf6c54fb2406316f1480e0fb31dc63a15cfb0095cf"
+    },
+    {
+      "file": "VERSION",
+      "bytes": 6,
+      "sha256": "c28fcca53637bc88e124af1725df13cb98c69dedefd62fb3cdbe1cdb6b760624"
+    },
+    {
+      "file": "app/__init__.py",
+      "bytes": 33,
+      "sha256": "fd6db06105f883c4123956d2c7d970b91b6bfdcc85d1599d35ef1c2bd60051d8"
+    },
+    {
+      "file": "app/bootstrap.py",
+      "bytes": 4903,
+      "sha256": "3e893c7fd237ffeb90a25a54666efc9952dcb243ce7dee979676df5a21a8642a"
+    },
+    {
+      "file": "app/main.py",
+      "bytes": 11965,
+      "sha256": "230fe152ecac40ff35d2bdfcbc71e5b01b14264469ecd0b9259eb2e79c50e279"
+    },
+    {
+      "file": "app/utils/__init__.py",
+      "bytes": 40,
+      "sha256": "02494fcc65e216936e0366a7b6d5ab30a1579d5621660dd5ff57329e167a831a"
+    },
+    {
+      "file": "app/utils/files.py",
+      "bytes": 419,
+      "sha256": "40873b8343ac3f8542a20a7c0680ab85b2d50fd0e7c19e153efce751ce760a0f"
+    },
+    {
+      "file": "calculator/__init__.py",
+      "bytes": 75,
+      "sha256": "a8d567c5668340e258f7ed9ad02bc07a3d4ab9a0e50ed0ead42d8f37fc348ada"
+    },
+    {
+      "file": "calculator/analysis_sql.py",
+      "bytes": 17536,
+      "sha256": "a2c53bb959db3afeaf6ae8622f7ac6969560b3e7cafc58766e57d86c31b41434"
+    },
+    {
+      "file": "calculator/database.py",
+      "bytes": 11863,
+      "sha256": "abf687560a038d7a46eddbc2038adc80c808634fb97bfa77e2b275ed0d19a579"
+    },
+    {
+      "file": "calculator/design.py",
+      "bytes": 3378,
+      "sha256": "ab8312c2b4c6142cc0543abcb48b8142fb0ddb8ed366d04b258b2bbaa42d969f"
+    },
+    {
+      "file": "calculator/engine.py",
+      "bytes": 9501,
+      "sha256": "d0d70353dc075ff285a517c52d1c0c1114a3b87521435cfba4931936f8cccca7"
+    },
+    {
+      "file": "calculator/main.py",
+      "bytes": 2440,
+      "sha256": "5ca692b0851e20a3ebaa8c2e41b3a4303cb5873a77df7528386e0434196a97c7"
+    },
+    {
+      "file": "calculator/matrix_sql.py",
+      "bytes": 6395,
+      "sha256": "02c3e6c03632645a0199fe71201a9a5d2542db69d10952a18a1154544a56c75b"
+    },
+    {
+      "file": "calculator/metrics.py",
+      "bytes": 8108,
+      "sha256": "36b4a813c685f4ed16aabd7b2dd136d140207f5cc8e5b8985cecc3d3737a23b9"
+    },
+    {
+      "file": "calculator/quality.py",
+      "bytes": 7614,
+      "sha256": "883df032bf3ab742bcdfe11de795b658b9e2b9c216313bd0d49d7bd8b5a90ee8"
+    },
+    {
+      "file": "calculator/runner.py",
+      "bytes": 8259,
+      "sha256": "78aeee7160fc2c9538701c6804b549ca331315bbd55f4dcb0915ac9d7da39e0a"
+    },
+    {
+      "file": "calculator/schema.sql",
+      "bytes": 5805,
+      "sha256": "57fb68378a4c04f6699b015b09bac632b347f68ed784eaa0124ccdf37d33611c"
+    },
+    {
+      "file": "calculator/statistics_sql.py",
+      "bytes": 8420,
+      "sha256": "df25f8d42b72723ca4ef9b8021af2a85fdefcfcdd3ea7b3009b6b25fee0892b9"
+    },
+    {
+      "file": "calculator/validate_database.py",
+      "bytes": 997,
+      "sha256": "8b37167f9a4b327e34150cd99300f8ef780f634d1d98b33d9535c08fac9da761"
+    },
+    {
+      "file": "calculator/verify_outputs.py",
+      "bytes": 2320,
+      "sha256": "5527e4f231d88ce191a9195100c7ca63f2e402cee3ae5a2f5b318ba3d4568dd3"
+    },
+    {
+      "file": "compose.yaml",
+      "bytes": 341,
+      "sha256": "e780e0f2ec0dc29fd1ca51d4caec1761c175ab24ba5725d7c420fc53958da3cb"
+    },
+    {
+      "file": "data/README.md",
+      "bytes": 1037,
+      "sha256": "21ecd54d32a8ddf66373e751dda2861ce9f011de70fef54139a9d3e62574617b"
+    },
+    {
+      "file": "data/manifest.json",
+      "bytes": 653,
+      "sha256": "bab29ad140f1273d6aeec67b36036399aecb08a5e34e97e01a78943fb7ce7bb6"
+    },
+    {
+      "file": "docs/api-examples.json",
+      "bytes": 12927,
+      "sha256": "cfe16c04a3428974c677d9fed5382f0d7d22db17cbdbcc2844743841eefe1dc1"
+    },
+    {
+      "file": "docs/api-tutorial-v6.pdf",
+      "bytes": 1936898,
+      "sha256": "370fe7371939d2fe3a6e48891b7ad740616d3616606615475ef902b016d07646"
+    },
+    {
+      "file": "docs/images/cover-api-v2.png",
+      "bytes": 1387335,
+      "sha256": "3f17f6bb152134ab1cccb35c3daca8951af2eb0b943d6dc791398d62ed6ab4f0"
+    },
+    {
+      "file": "docs/manual-image-provenance-v2.json",
+      "bytes": 1769,
+      "sha256": "a428df7512620830fefe9640cb263518705720ffadea1fc82eedd1ca873f9fd2"
+    },
+    {
+      "file": "docs/source-provenance.json",
+      "bytes": 3731,
+      "sha256": "b19a5be6cc58c87f90a47399f2374d7636a248cdf32541c916578ba301927647"
+    },
+    {
+      "file": "docs/tutorial-content.json",
+      "bytes": 25853,
+      "sha256": "cde95f3d28939f9335d7f9a4f8c0d3d442057a3c8dd64bcd6fb22df019d3d896"
+    },
+    {
+      "file": "docs/validation/README.md",
+      "bytes": 1397,
+      "sha256": "259d2ca4146cdb83358d7821f6f848ef1ef11125a008cc894c365616c630cf36"
+    },
+    {
+      "file": "docs/validation/api-tests-github.txt",
+      "bytes": 590,
+      "sha256": "51a2794ef024b037ab48dc8f96bca3ce34e9c2a8a584b3a3fa8dd2bed230cf50"
+    },
+    {
+      "file": "docs/validation/manual-v6-review.json",
+      "bytes": 339,
+      "sha256": "7363cb27a0121fc826d213c7c2a32100156b8b22ed3546508ef91cb3bc53286b"
+    },
+    {
+      "file": "docs/validation/openapi.json",
+      "bytes": 21085,
+      "sha256": "f34056a77a2af49b7bcf97c9840bb1defce8b869c3358b4e963e6a96c9b7b55f"
+    },
+    {
+      "file": "docs/validation/public-download.json",
+      "bytes": 603,
+      "sha256": "23601017c143babbe2272bc33303acb03dd38ced0d0aed50bffe7b87000a9923"
+    },
+    {
+      "file": "requirements-analysis.txt",
+      "bytes": 27,
+      "sha256": "8da5d35db6024eab34612e77ecd23453b669886d67747fb332e0a0c352d2f005"
+    },
+    {
+      "file": "requirements-dev.txt",
+      "bytes": 80,
+      "sha256": "5ad827bc369479a583ba90fc459dcbea4a146f554f82db72bb94616f87bd7672"
+    },
+    {
+      "file": "requirements.txt",
+      "bytes": 75,
+      "sha256": "bad48835cda1e1b04cc510ca1cbe20be3142184a3af8cf88485d7eb10659bfbd"
+    },
+    {
+      "file": "scripts/build_tutorials.py",
+      "bytes": 16737,
+      "sha256": "536ff40dbbb3230b6d0465af8cbb99449dd7eb9769fb8fa79dd0c771556c5b04"
+    },
+    {
+      "file": "scripts/record_api_examples.py",
+      "bytes": 2341,
+      "sha256": "c4d2ea3742f5bd86573047cc8d989cd5a97d1c6f936f72bdb582b1be8234bd2f"
+    },
+    {
+      "file": "tests/test_api.py",
+      "bytes": 11863,
+      "sha256": "1e2d1f624e73addeebe4b53b27a88cf5b1a41a727fda0074d4ce7a16e502d8ed"
+    }
+  ]
+}

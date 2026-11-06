@@ -1,0 +1,12 @@
+{
+  "public_file_bytes": 1703673856,
+  "expected_bytes": 1923264512,
+  "public_file_sha256": "c063923e78d35744713137dcd5e97936d667d2924ea33ac2e6ab4d33c02f3541",
+  "expected_sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
+  "quick_check_error": "database disk image is malformed",
+  "download_url": "https://drive.google.com/file/d/1bclq58C1jxSJT-LWtqxDsbzDpWOGsAX_/view?usp=sharing",
+  "anonymous_download": true,
+  "cookies_used": false,
+  "matches_expected_database": false,
+  "status": "Awaiting complete public SQLite file; existing integrity requirements preserved."
+}
