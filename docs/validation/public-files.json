@@ -85,8 +85,8 @@
     },
     {
       "file": "app/static/status.js",
-      "bytes": 16359,
-      "sha256": "6db2391ae1976767f5968df80a714e2f38d6689973bdc15df1f1c7d057b7ee25"
+      "bytes": 16458,
+      "sha256": "965278b9ffc62ca43e341ea9f561c5f30b40a623a926807a1d954687ca8e1ecd"
     },
     {
       "file": "app/utils/__init__.py",
@@ -285,8 +285,8 @@
     },
     {
       "file": "docs/validation/status-page-review.json",
-      "bytes": 46546,
-      "sha256": "d36e7742dd7fe17e1f86df8bca4bb2ad3e182bec06002e073241688e43067ddf"
+      "bytes": 46817,
+      "sha256": "3248619b0f7299dc230923f07fd3d9c2ab355c89f848f58c382c81cb3d7fe22a"
     },
     {
       "file": "requirements-analysis.txt",

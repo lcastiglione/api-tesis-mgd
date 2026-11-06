@@ -146,7 +146,8 @@ function renderFields() {
       }
       if (schema.maxLength) input.maxLength=schema.maxLength;
       if (schema.minLength) input.minLength=schema.minLength;
-      if (schema.pattern) input.pattern=schema.pattern;
+      // HTML usa conjuntos Unicode: el guion literal final debe escaparse.
+      if (schema.pattern) input.pattern=schema.pattern.replace(/-\]/g,'\\-]');
       if (field.name==='execution_id') input.placeholder='Copiá un ID de Ejecuciones';
     }
     if (saved[field.name]!==undefined) input.value=saved[field.name];

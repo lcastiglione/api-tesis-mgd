@@ -2225,5 +2225,17 @@
     "errors": []
   },
   "engine_verification_passed": true,
-  "javascript_errors": []
+  "javascript_errors": [],
+  "parameter_validation": {
+    "validated_fields": [
+      "configuration",
+      "configuration",
+      "segment",
+      "metric",
+      "window_id"
+    ],
+    "allowed_identifiers": true,
+    "invalid_identifiers_rejected": true,
+    "browser_pattern_errors": []
+  }
 }
