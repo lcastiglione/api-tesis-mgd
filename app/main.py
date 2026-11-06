@@ -1,5 +1,6 @@
 """API de consulta y comprobación del estudio; la SQLite entregada es inmutable."""
 from contextlib import asynccontextmanager, contextmanager
+from datetime import date
 from itertools import islice
 import json
 import os
@@ -12,7 +13,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from calculator.database import Database
 from calculator.runner import run_case
@@ -85,6 +86,19 @@ class Pagination(BaseModel):
 class ConfigurationFilters(Pagination):
     instrument: Instrument | None = None
     family: Family | None = None
+
+
+class QuoteFilters(Pagination):
+    """Limita las cotizaciones a los siete ETF y a un intervalo de fechas válido."""
+    ticker: Instrument = Field(description='ETF disponible en la base del estudio.')
+    start_date: date | None = Field(default=None,description='Fecha inicial incluida, en formato AAAA-MM-DD.')
+    end_date: date | None = Field(default=None,description='Fecha final incluida, en formato AAAA-MM-DD.')
+
+    @model_validator(mode='after')
+    def validate_date_range(self):
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise ValueError('start_date debe ser anterior o igual a end_date.')
+        return self
 
 
 class ExecutionFilters(Pagination):
@@ -162,6 +176,34 @@ def instruments() -> dict:
             count(DISTINCT c.configuration_id) AS configurations,count(e.execution_id) AS executions
             FROM configurations c LEFT JOIN executions e USING(configuration_id)
             GROUP BY c.instrument_id ORDER BY c.instrument_id''')]}
+
+
+@api.get('/api/v1/quotes',tags=['Cotizaciones'],summary='Consultar las cotizaciones guardadas')
+def quotes(filters: Annotated[QuoteFilters,Query()]) -> dict:
+    """Devuelve precios históricos de SQLite; ticker se elige en un selector cerrado.
+
+    Las fechas son inclusivas y los registros se ordenan desde el más antiguo.
+    Los precios conservan el texto decimal original. open, high, low y close
+    corresponden a OHLC; adj_close y adj_open/adj_high/adj_low son precios ajustados.
+    La consulta no descarga precios nuevos ni modifica la base.
+    """
+    start_date = filters.start_date.isoformat() if filters.start_date else None
+    end_date = filters.end_date.isoformat() if filters.end_date else None
+    with open_database() as database:
+        rows = database.connection.execute('''
+            SELECT dataset_id,series_id AS ticker,observation_date AS date,
+                   open,high,low,close,adj_close,volume,dividends,stock_splits,
+                   capital_gains,adjustment_factor,adj_open,adj_high,adj_low
+            FROM market_data
+            WHERE record_type='prices' AND series_id=?
+              AND (? IS NULL OR observation_date>=?)
+              AND (? IS NULL OR observation_date<=?)
+            ORDER BY observation_date,source_id,source_row LIMIT ? OFFSET ?''',
+            (filters.ticker,start_date,start_date,end_date,end_date,filters.limit+1,filters.offset)).fetchall()
+    return {'ticker':filters.ticker,'start_date':start_date,'end_date':end_date,
+            'items':[dict(row) for row in rows[:filters.limit]],
+            'limit':filters.limit,'offset':filters.offset,'has_more':len(rows)>filters.limit,
+            'scope':'Cotizaciones históricas guardadas; precios originales como texto exacto y volumen como entero.'}
 
 
 @api.get('/api/v1/configuration-counts',tags=['Estudio'])

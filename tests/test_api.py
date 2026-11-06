@@ -62,6 +62,55 @@ class ApiTests(unittest.TestCase):
         result=self.client.get('/api/v1/configuration-counts',params={'instrument':'SPY'}).json()
         self.assertEqual(result['items'],[{'family':'MOM','total':5},{'family':'MR-Z','total':17},{'family':'P-SMA','total':5}])
 
+    def test_quotes_match_stored_prices_and_date_pagination(self) -> None:
+        with main.open_database() as database:
+            tickers=[row[0] for row in database.connection.execute(
+                "SELECT DISTINCT series_id FROM market_data WHERE record_type='prices' ORDER BY series_id")]
+            for ticker in tickers:
+                with self.subTest(ticker=ticker):
+                    response=self.client.get('/api/v1/quotes',params={'ticker':ticker,'limit':1})
+                    self.assertEqual(response.status_code,200,response.text)
+                    result=response.json()
+                    source=database.connection.execute("SELECT * FROM market_data WHERE record_type='prices' AND series_id=? ORDER BY observation_date LIMIT 1",(ticker,)).fetchone()
+                    quote=result['items'][0]
+                    self.assertEqual(quote['ticker'],ticker)
+                    self.assertEqual(quote['date'],source['observation_date'])
+                    for field in ['open','high','low','close','adj_close','volume','dividends','stock_splits','adj_open']:
+                        self.assertEqual(quote[field],source[field])
+                    self.assertIsInstance(quote['close'],str)
+                    self.assertIsInstance(quote['volume'],int)
+                    self.assertTrue(result['has_more'])
+        parameters={'ticker':'SPY','start_date':'2016-01-04','end_date':'2016-01-05'}
+        result=self.client.get('/api/v1/quotes',params=parameters).json()
+        self.assertEqual([item['date'] for item in result['items']],['2016-01-04','2016-01-05'])
+        self.assertFalse(result['has_more'])
+        page=self.client.get('/api/v1/quotes',params={**parameters,'limit':1,'offset':1}).json()
+        self.assertEqual(page['items'],result['items'][1:])
+        self.assertFalse(page['has_more'])
+        empty=self.client.get('/api/v1/quotes',params={'ticker':'SPY','end_date':'2015-12-31'}).json()
+        self.assertEqual(empty['items'],[])
+        self.assertFalse(empty['has_more'])
+
+    def test_quotes_reject_unknown_tickers_dates_and_client_sql(self) -> None:
+        for parameters in [{},{'ticker':'AAPL'},{'ticker':"SPY' OR 1=1 --"},
+                           {'ticker':'SPY','start_date':'2025-13-01'},
+                           {'ticker':'SPY','start_date':'2025-12-31','end_date':'2016-01-04'},
+                           {'ticker':'SPY','limit':0},{'ticker':'SPY','limit':1001},
+                           {'ticker':'SPY','offset':-1},{'ticker':'SPY','sql':'SELECT 1'}]:
+            with self.subTest(parameters=parameters):
+                self.assertEqual(self.client.get('/api/v1/quotes',params=parameters).status_code,422)
+
+    def test_quotes_selector_contains_only_tickers_with_saved_prices(self) -> None:
+        schema=self.client.get('/openapi.json').json()
+        operation=schema['paths']['/api/v1/quotes']['get']
+        ticker=next(p for p in operation['parameters'] if p['name']=='ticker')
+        with main.open_database() as database:
+            actual={row[0] for row in database.connection.execute(
+                "SELECT DISTINCT series_id FROM market_data WHERE record_type='prices'")}
+        self.assertTrue(ticker['required'])
+        self.assertEqual(set(ticker['schema']['enum']),actual)
+        self.assertEqual(operation['operationId'],'quotes_api_v1_quotes_get')
+
     def test_client_sql_and_unlisted_parameters_are_rejected(self) -> None:
         self.assertEqual(self.client.post('/api/v1/query',json={'sql':'SELECT * FROM configurations'}).status_code,404)
         self.assertEqual(self.client.get('/api/v1/schema').status_code,404)
@@ -118,7 +167,7 @@ class ApiTests(unittest.TestCase):
         version=catalog['api']['version']
         self.assertEqual(response.content,(main.ROOT/'docs'/f'api-tutorial-v{version}.pdf').read_bytes())
         contract=self.client.get('/openapi.json').json()
-        self.assertEqual(contract['info']['version'],'2.2.0')
+        self.assertEqual(contract['info']['version'],'2.3.0')
         self.assertNotIn('/api/v1/query',contract['paths'])
         self.assertNotIn('/api/v1/schema',contract['paths'])
         self.assertIn('inyecciones SQL',contract['info']['description'])
