@@ -10,64 +10,24 @@
   <script defer src="/assets/status.js"></script>
 </head>
 <body>
-  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <symbol id="icon-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></symbol>
-    <symbol id="icon-pulse" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
-    <symbol id="icon-data" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></symbol>
-    <symbol id="icon-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></symbol>
-    <symbol id="icon-chart" viewBox="0 0 24 24"><path d="M4 3v17h17M8 15v-4m5 4V7m5 8V4"/></symbol>
-    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
-    <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
-    <symbol id="icon-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8z"/></symbol>
-    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 5v16M3 3c4-1 7 0 9 2 2-2 5-3 9-2v16c-4-1-7 0-9 2-2-2-5-3-9-2z"/></symbol>
-    <symbol id="icon-file" viewBox="0 0 24 24"><path d="M13 3H5v18h14V9zM13 3v6h6M8 14h8M8 17h6"/></symbol>
-  </svg>
-  <div class="screen" id="screen">
-    <main class="dashboard" id="dashboard">
-      <header class="header">
-        <div class="brand"><img src="/assets/mark.svg" alt="" width="34" height="34"><h1>API Tesis Robustez <span>MGD</span></h1></div>
-        <span class="version" id="version">API</span>
-      </header>
-
-      <section class="metrics" aria-label="Estado del sistema" aria-live="polite">
-        <article class="metric" id="server-metric"><svg aria-hidden="true"><use href="#icon-server"/></svg><div><span>Servidor</span><strong id="server-label">Conectando</strong></div><i class="signal" aria-hidden="true"></i></article>
-        <article class="metric" id="health-metric"><svg aria-hidden="true"><use href="#icon-pulse"/></svg><div><span>Salud API</span><strong id="health-label">Comprobando</strong></div><i class="signal" aria-hidden="true"></i></article>
-        <article class="metric" id="database-metric"><svg aria-hidden="true"><use href="#icon-data"/></svg><div><span>Base SQLite</span><strong id="database-label">Preparando</strong></div><i class="signal" aria-hidden="true"></i></article>
+  <main class="console">
+    <header class="header"><div class="brand"><img src="/assets/mark.svg" alt=""><h1>API Tesis Robustez <span>MGD</span></h1></div><span class="version" id="version">Iniciando</span></header>
+    <section class="metrics" aria-label="Estado del sistema">
+      <article class="metric" id="server-metric"><span class="metric-symbol" aria-hidden="true">◉</span><div><span class="metric-label">Servidor</span><strong id="server-label">Conectando</strong></div><i class="signal" aria-hidden="true"></i></article>
+      <article class="metric" id="health-metric"><svg class="pulse" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h5l3-8 4 16 3-8h5"/></svg><div><span class="metric-label">Salud API</span><strong id="health-label">Iniciando</strong></div><i class="signal" aria-hidden="true"></i></article>
+      <article class="metric database-metric" id="database-metric"><div class="ring" id="ring" role="progressbar" aria-label="Descarga de la base" aria-valuemin="0" aria-valuemax="100"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="ring-track" cx="50" cy="50" r="42"/><circle class="ring-fill" id="ring-fill" cx="50" cy="50" r="42"/></svg><strong id="percent">—</strong></div><div><span class="metric-label">Base SQLite</span><strong id="database-label">Preparando</strong><small id="bytes">data/study.sqlite</small></div></article>
+    </section>
+    <div class="system-error" id="system-error" role="status" aria-live="polite" hidden></div>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Consultas disponibles"><div class="sidebar-heading">Consultas</div><select id="mobile-operation" aria-label="Elegir consulta"></select><nav id="operations"></nav><a class="manual" href="/tutorials/api" download>Manual de uso <span>↓</span></a></aside>
+      <section class="query-panel" aria-labelledby="query-title">
+        <header class="query-heading"><div><h2 id="query-title">Cotizaciones guardadas</h2><p id="query-description">Precios históricos por ticker y fechas.</p></div><span class="method" id="method">GET</span></header>
+        <form id="query-form"><div class="fields" id="fields"><p class="loading-fields">Cargando parámetros…</p></div><div class="query-actions"><code id="request-path">/api/v1/quotes</code><button type="submit" id="execute" disabled>Consultar <span>→</span></button></div></form>
+        <div class="response-toolbar"><div class="response-tabs" role="tablist" aria-label="Formato de respuesta"><button id="json-tab" type="button" role="tab" aria-selected="true">JSON</button><button id="table-tab" type="button" role="tab" aria-selected="false" disabled>Tabla</button></div><div class="response-meta"><span id="response-status">Sin consulta</span><span id="response-time"></span><button id="copy" type="button" disabled>Copiar</button></div></div>
+        <div class="response" id="response" aria-live="polite"><div class="empty-state"><span aria-hidden="true">{ }</span><p>Elegí los parámetros y presioná Consultar.</p></div></div>
       </section>
-
-      <section class="transfer" id="transfer" aria-labelledby="state-title">
-        <div class="ring" id="ring" role="progressbar" aria-label="Descarga de la base" aria-valuemin="0" aria-valuemax="100">
-          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-track" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50"/></svg>
-          <strong id="percent">—</strong>
-        </div>
-        <div class="transfer-detail">
-          <h2 id="state-title">Preparando la base</h2>
-          <p class="bytes" id="bytes">data/study.sqlite</p>
-          <ol class="steps" aria-label="Preparación"><li id="step-download"><i></i>Descarga</li><li id="step-verify"><i></i>Verificación</li><li id="step-ready"><i></i>Lista</li></ol>
-          <p class="status-note" id="status-note" role="status" aria-live="polite"></p>
-        </div>
-      </section>
-
-      <nav class="access" aria-labelledby="access-title">
-        <h2 id="access-title">Accesos</h2>
-        <div class="links">
-          <a class="featured quotes-link" href="/docs#/Cotizaciones/quotes_api_v1_quotes_get"><svg aria-hidden="true"><use href="#icon-chart"/></svg>Cotizaciones<span>↗</span></a>
-          <a class="featured" id="docs-link" href="/docs"><svg aria-hidden="true"><use href="#icon-code"/></svg>Consultas<span>↗</span></a>
-          <a href="/api/v1/study" data-requires-database><svg aria-hidden="true"><use href="#icon-data"/></svg>Estudio<span>↗</span></a>
-          <a href="/api/v1/instruments" data-requires-database><svg aria-hidden="true"><use href="#icon-chart"/></svg>Instrumentos<span>↗</span></a>
-          <a href="/api/v1/configurations" data-requires-database><svg aria-hidden="true"><use href="#icon-grid"/></svg>Configuraciones<span>↗</span></a>
-          <a href="/api/v1/configuration-counts" data-requires-database><svg aria-hidden="true"><use href="#icon-list"/></svg>Recuentos<span>↗</span></a>
-          <a href="/api/v1/executions" data-requires-database><svg aria-hidden="true"><use href="#icon-play"/></svg>Ejecuciones<span>↗</span></a>
-          <a href="/docs#/Detalle"><svg aria-hidden="true"><use href="#icon-chart"/></svg>Resultados<span>↗</span></a>
-          <a href="/docs#/Comprobaci%C3%B3n"><svg aria-hidden="true"><use href="#icon-play"/></svg>Motor<span>↗</span></a>
-          <a href="/redoc"><svg aria-hidden="true"><use href="#icon-book"/></svg>Referencia<span>↗</span></a>
-          <a href="/openapi.json"><svg aria-hidden="true"><use href="#icon-code"/></svg>OpenAPI<span>↗</span></a>
-          <a href="/status"><svg aria-hidden="true"><use href="#icon-pulse"/></svg>Estado JSON<span>↗</span></a>
-          <a href="/tutorials/api"><svg aria-hidden="true"><use href="#icon-file"/></svg>Manual<span>↓</span></a>
-        </div>
-      </nav>
-      <noscript>Se necesita JavaScript para actualizar los indicadores. <a href="/status">Ver estado JSON</a>.</noscript>
-    </main>
-  </div>
+    </div>
+    <noscript>Se necesita JavaScript para usar la consola. El estado se puede consultar en /status.</noscript>
+  </main>
 </body>
 </html>
