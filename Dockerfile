@@ -8,7 +8,9 @@ COPY calculator ./calculator
 COPY VERSION ./VERSION
 COPY data/manifest.json ./data/manifest.json
 COPY docs ./docs
-RUN useradd --uid 10001 --create-home study
+RUN useradd --uid 10001 --create-home study \
+    && mkdir -p /data \
+    && chown study:study /data
 USER study
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=4)"

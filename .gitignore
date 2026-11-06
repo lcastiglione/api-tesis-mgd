@@ -1,6 +1,5 @@
-.env
 .env.*
-!.env.example
+!.env
 .agents/
 .venv/
 __pycache__/
@@ -29,5 +28,5 @@ docs/validation/*
 !docs/validation/api-tests-github.txt
 !docs/validation/public-download.json
 !docs/validation/openapi.json
-!docs/validation/manual-v6-review.json
+!docs/validation/manual-v7-review.json
 !docs/validation/public-files.json
