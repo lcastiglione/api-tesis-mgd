@@ -1,0 +1,78 @@
+{
+  "engine_version": 9,
+  "source": "Analytical tools; excludes bibliographic database, credentials and original thesis sources.",
+  "files": [
+    {
+      "file": "calculator/database.py",
+      "source_sha256": "abf687560a038d7a46eddbc2038adc80c808634fb97bfa77e2b275ed0d19a579",
+      "export_sha256": "abf687560a038d7a46eddbc2038adc80c808634fb97bfa77e2b275ed0d19a579",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/design.py",
+      "source_sha256": "ab8312c2b4c6142cc0543abcb48b8142fb0ddb8ed366d04b258b2bbaa42d969f",
+      "export_sha256": "ab8312c2b4c6142cc0543abcb48b8142fb0ddb8ed366d04b258b2bbaa42d969f",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/engine.py",
+      "source_sha256": "928bea323c328793d34d79b0c0d2fb6d99320d469ac065ef57189d5db49f39d4",
+      "export_sha256": "d0d70353dc075ff285a517c52d1c0c1114a3b87521435cfba4931936f8cccca7",
+      "change": "Imports de paquete y normalización del salto de línea final."
+    },
+    {
+      "file": "calculator/metrics.py",
+      "source_sha256": "36b4a813c685f4ed16aabd7b2dd136d140207f5cc8e5b8985cecc3d3737a23b9",
+      "export_sha256": "36b4a813c685f4ed16aabd7b2dd136d140207f5cc8e5b8985cecc3d3737a23b9",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/quality.py",
+      "source_sha256": "883df032bf3ab742bcdfe11de795b658b9e2b9c216313bd0d49d7bd8b5a90ee8",
+      "export_sha256": "883df032bf3ab742bcdfe11de795b658b9e2b9c216313bd0d49d7bd8b5a90ee8",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/runner.py",
+      "source_sha256": "3389ccdd0309646f3f85bfb1cabeed3ac48b7beaaa5fc05ba568f58fcb6b9106",
+      "export_sha256": "78aeee7160fc2c9538701c6804b549ca331315bbd55f4dcb0915ac9d7da39e0a",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/analysis_sql.py",
+      "source_sha256": "9840bee06f0aeb8cef3346ca9269babdc21d9be4170ea9daaa4ed66f952de40b",
+      "export_sha256": "a2c53bb959db3afeaf6ae8622f7ac6969560b3e7cafc58766e57d86c31b41434",
+      "change": "Imports de paquete y normalización del salto de línea final."
+    },
+    {
+      "file": "calculator/statistics_sql.py",
+      "source_sha256": "92e2fa3b0ba3a1a6893c3202ac463fe3ce2c78c6aa209e7fc05240fd2e649f61",
+      "export_sha256": "df25f8d42b72723ca4ef9b8021af2a85fdefcfcdd3ea7b3009b6b25fee0892b9",
+      "change": "Imports de paquete y normalización del salto de línea final."
+    },
+    {
+      "file": "calculator/matrix_sql.py",
+      "source_sha256": "35007c31289856e9a24400b401d4572b17230f4b42b5f561b56d7db3e04746df",
+      "export_sha256": "02c3e6c03632645a0199fe71201a9a5d2542db69d10952a18a1154544a56c75b",
+      "change": "Imports de paquete y normalización del salto de línea final."
+    },
+    {
+      "file": "calculator/verify_outputs.py",
+      "source_sha256": "f462d3aeedbb50a2e10ecc5f514b23275e302d183aff57afcf2f5dba67ab2267",
+      "export_sha256": "5527e4f231d88ce191a9195100c7ca63f2e402cee3ae5a2f5b318ba3d4568dd3",
+      "change": "Imports de paquete y normalización del salto de línea final."
+    },
+    {
+      "file": "calculator/validate_database.py",
+      "source_sha256": "8b37167f9a4b327e34150cd99300f8ef780f634d1d98b33d9535c08fac9da761",
+      "export_sha256": "8b37167f9a4b327e34150cd99300f8ef780f634d1d98b33d9535c08fac9da761",
+      "change": "package imports only"
+    },
+    {
+      "file": "calculator/main.py",
+      "source_sha256": "c85cff8805e5beb22299fa6f135c44788dc3ac9bdbf6e8c5f5f67b7fe9d94853",
+      "export_sha256": "5ca692b0851e20a3ebaa8c2e41b3a4303cb5873a77df7528386e0434196a97c7",
+      "change": "Package imports and retained engine commands only: inspect, validate, run-case, analyze."
+    }
+  ]
+}
