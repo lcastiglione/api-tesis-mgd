@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "database_version": 2,
+  "storage_revision": 3,
+  "engine_version": 9,
+  "database": {
+    "filename": "study.sqlite",
+    "bytes": 1923264512,
+    "sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a"
+  },
+  "archive": {
+    "filename": "study.sqlite.gz",
+    "bytes": 1821838625,
+    "sha256": "ac76b1dd67583e27ec37b28672d800d0fa37a72cf5b9fbba89faa01d2ab1c434"
+  },
+  "download_url": "https://drive.google.com/file/d/1bclq58C1jxSJT-LWtqxDsbzDpWOGsAX_/view?usp=sharing",
+  "download_format": "sqlite",
+  "publication_status": "Public SQLite download configured; size, SHA-256 and integrity required."
+}
