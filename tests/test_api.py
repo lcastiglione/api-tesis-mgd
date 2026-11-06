@@ -118,7 +118,7 @@ class ApiTests(unittest.TestCase):
         version=catalog['api']['version']
         self.assertEqual(response.content,(main.ROOT/'docs'/f'api-tutorial-v{version}.pdf').read_bytes())
         contract=self.client.get('/openapi.json').json()
-        self.assertEqual(contract['info']['version'],'2.1.0')
+        self.assertEqual(contract['info']['version'],'2.2.0')
         self.assertNotIn('/api/v1/query',contract['paths'])
         self.assertNotIn('/api/v1/schema',contract['paths'])
         self.assertIn('inyecciones SQL',contract['info']['description'])
