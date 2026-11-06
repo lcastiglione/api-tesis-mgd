@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "author": "Ing. Leonardo J. Castiglione",
   "api": {
     "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
@@ -31,27 +31,25 @@
           },
           {
             "type": "code",
-            "title": "TERMINAL · descargar el código",
-            "text": "git clone https://github.com/lcastiglione/api-tesis-mgd.git\ncd api-tesis-mgd"
+            "title": "TERMINAL · clonar e iniciar",
+            "text": "git clone https://github.com/lcastiglione/api-tesis-mgd.git\ncd api-tesis-mgd\ndocker compose up --build -d"
           },
           {
             "type": "text",
-            "text": "El archivo <b>.env.example</b> ya contiene el enlace público de la base y el puerto 8000. Se copia como <b>.env</b> para conservar la configuración local:"
+            "text": "El archivo <b>.env</b> ya está incluido en el repositorio. Contiene el enlace público de la base y el puerto 8000. Docker Compose lo lee automáticamente: no se copia ni se modifica ningún archivo para empezar."
           },
           {
-            "type": "code",
-            "title": "LINUX O MACOS",
-            "text": "cp .env.example .env"
-          },
-          {
-            "type": "code",
-            "title": "WINDOWS POWERSHELL",
-            "text": "Copy-Item .env.example .env"
+            "type": "diagram",
+            "labels": [
+              ["Proyecto", "La configuración ya está incluida."],
+              ["Docker", "Descarga y verifica la base."],
+              ["Navegador", "Permite consultar la API."]
+            ]
           },
           {
             "type": "callout",
             "level": "info",
-            "text": "El archivo .env es local y no se sube a GitHub. DATABASE_URL indica dónde descargar la base; el manifiesto conserva el formato, el tamaño y la huella esperados. No se agregan claves ni credenciales de Google."
+            "text": "Docker crea el almacenamiento de la base y prepara sus permisos automáticamente. No se necesitan credenciales de Google, ajustes de usuario de Linux ni carpetas preparadas por la persona que instala el proyecto."
           }
         ]
       },
@@ -61,7 +59,7 @@
         "blocks": [
           {
             "type": "text",
-            "text": "El proyecto incluye el motor Python, la configuración Docker y una API para consultar la base del estudio. El servicio utiliza el puerto <b>8000</b>. La base se conserva en <b>data/</b> y se reutiliza en los arranques siguientes."
+            "text": "El proyecto incluye el motor Python, la configuración Docker y una API para consultar la base del estudio. El servicio utiliza el puerto <b>8000</b>. Docker conserva la base en un volumen persistente: un espacio que se mantiene al apagar y volver a iniciar el servicio."
           },
           {
             "type": "code",
@@ -98,7 +96,7 @@
           {
             "type": "callout",
             "level": "info",
-            "text": "Ctrl+C termina la lectura de los registros. El comando docker compose down detiene el servicio. La base permanece en data/ y se reutiliza al volver a arrancar."
+            "text": "Ctrl+C termina la lectura de los registros. El comando docker compose down detiene el servicio. La base permanece en el volumen de Docker y se reutiliza al volver a arrancar."
           }
         ]
       },
@@ -129,7 +127,7 @@
           },
           {
             "type": "text",
-            "text": "El enlace está incluido en <b>DATABASE_URL</b>, dentro de <b>.env.example</b>, y en <b>download_url</b>, dentro de <b>data/manifest.json</b>. El formato configurado es SQLite sin comprimir. El usuario clona el proyecto, copia la configuración y ejecuta Docker."
+            "text": "El enlace está incluido en <b>DATABASE_URL</b>, dentro de <b>.env</b>, y en <b>download_url</b>, dentro de <b>data/manifest.json</b>. El formato configurado es SQLite sin comprimir. El usuario clona el proyecto y ejecuta Docker, sin editar la configuración."
           },
           {
             "type": "table",
@@ -139,11 +137,11 @@
             ],
             "rows": [
               [
-                "Ya existe data/study.sqlite",
+                "Ya existe /data/study.sqlite en el volumen",
                 "Verifica su identidad y utiliza esa copia."
               ],
               [
-                "Existe data/study.sqlite.gz",
+                "Existe /data/study.sqlite.gz en el volumen",
                 "Verifica el gzip, lo expande y utiliza la base local."
               ],
               [
@@ -168,7 +166,7 @@
           {
             "type": "callout",
             "level": "info",
-            "text": "Si Drive limita temporalmente la descarga, study.sqlite también puede descargarse con el navegador desde el enlace del README y colocarse en data/. El arranque verifica esa copia antes de usarla."
+            "text": "La base se guarda en /data/study.sqlite dentro del contenedor. Docker administra ese almacenamiento; no se necesita crear una carpeta de datos en el equipo ni configurar sus permisos."
           }
         ]
       },
@@ -595,11 +593,11 @@
           },
           {
             "type": "text",
-            "text": "API v2 · Manual v6 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+            "text": "API v2 · Manual v7 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
           }
         ]
       }
     ],
-    "version": 6
+    "version": 7
   }
 }

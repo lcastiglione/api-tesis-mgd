@@ -1,0 +1,17 @@
+{
+  "manual_version": 7,
+  "pages": 15,
+  "git_clone_documented": true,
+  "ready_env_included": true,
+  "no_configuration_copy_or_edits": true,
+  "docker_named_volume_documented": true,
+  "dates_omitted": true,
+  "safe_area_issues": [],
+  "sha256": "009e4b956cccb1a0b5f681dc376d20c0f856c30f33c390adcaf2106518bf9360",
+  "matches_output": true,
+  "visual_review_pages": [
+    2,
+    3,
+    4
+  ]
+}

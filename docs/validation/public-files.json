@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "manual": "api-v6",
+  "manual": "api-v7",
   "scope": "Código del motor y la API, configuración Docker, pruebas y manual. Excluye SQLite, Excel, credenciales e historial privado. No incluye su propia huella.",
   "files": [
     {
@@ -9,9 +9,9 @@
       "sha256": "06ff542fdc9672152cb35d0efb78e60bd69ac0e59c3d5d451911eb326e0c895e"
     },
     {
-      "file": ".env.example",
-      "bytes": 379,
-      "sha256": "c4074fec8e4958ec4f2479eb57ed347816b72b1fb6a30e60dc88879e0294f31e"
+      "file": ".env",
+      "bytes": 129,
+      "sha256": "7a8e5eeecdd369f417c37860d5737c2035b77eb24e7f0d5b07351a28406923f0"
     },
     {
       "file": ".gitattributes",
@@ -20,18 +20,18 @@
     },
     {
       "file": ".gitignore",
-      "bytes": 468,
-      "sha256": "d821fa973e2df5aba2c764357e161960a7d34781d5a269db7a32acdaa34999f6"
+      "bytes": 455,
+      "sha256": "cdb3cff7c7e73f2ea45d288cba6151f38cab2e90b844f36730cd8a6fece59ced"
     },
     {
       "file": "Dockerfile",
-      "bytes": 858,
-      "sha256": "6c638d739c4af1b84591268d2095cdb39bb82af74773b309ee4dbb1599d84211"
+      "bytes": 915,
+      "sha256": "88de0277529af732fe8a5628d62cba7812ae0bfc58d010c3b54d8c7d0e0bc2e6"
     },
     {
       "file": "README.md",
-      "bytes": 9050,
-      "sha256": "8bd21c5967c415debcbddfa09b9e1cb001e1d4b23930c131e987f5a68b67a78e"
+      "bytes": 8796,
+      "sha256": "6053b844bfeabd443d81e75a8661d555d5beedf94ec645075e428a5da67f332e"
     },
     {
       "file": "VERSION",
@@ -135,13 +135,13 @@
     },
     {
       "file": "compose.yaml",
-      "bytes": 341,
-      "sha256": "e780e0f2ec0dc29fd1ca51d4caec1761c175ab24ba5725d7c420fc53958da3cb"
+      "bytes": 319,
+      "sha256": "1c3f0925e6239aa89b0712f14c4100b48b106683b95fe208904da1a9f7c78eaf"
     },
     {
       "file": "data/README.md",
-      "bytes": 1037,
-      "sha256": "21ecd54d32a8ddf66373e751dda2861ce9f011de70fef54139a9d3e62574617b"
+      "bytes": 1009,
+      "sha256": "d06da56d9685c7014ad38a0d21404a0fd67e823315c6a534c0675968ff722df6"
     },
     {
       "file": "data/manifest.json",
@@ -154,9 +154,9 @@
       "sha256": "cfe16c04a3428974c677d9fed5382f0d7d22db17cbdbcc2844743841eefe1dc1"
     },
     {
-      "file": "docs/api-tutorial-v6.pdf",
-      "bytes": 1936898,
-      "sha256": "370fe7371939d2fe3a6e48891b7ad740616d3616606615475ef902b016d07646"
+      "file": "docs/api-tutorial-v7.pdf",
+      "bytes": 1937583,
+      "sha256": "009e4b956cccb1a0b5f681dc376d20c0f856c30f33c390adcaf2106518bf9360"
     },
     {
       "file": "docs/images/cover-api-v2.png",
@@ -175,23 +175,23 @@
     },
     {
       "file": "docs/tutorial-content.json",
-      "bytes": 25853,
-      "sha256": "cde95f3d28939f9335d7f9a4f8c0d3d442057a3c8dd64bcd6fb22df019d3d896"
+      "bytes": 26004,
+      "sha256": "9f44e4b9ea312f612a2326da0aa926a9e38a0df53f492b337c9088816a68a23b"
     },
     {
       "file": "docs/validation/README.md",
-      "bytes": 1466,
-      "sha256": "f0798367b07312c59123f11767ca42a3fdc8efe0e09ca7ca872ce8efffb78607"
+      "bytes": 1654,
+      "sha256": "ee54d4058b3897d353bf7d68d32ef9716065670b6fe327678bba367bfb7033b8"
     },
     {
       "file": "docs/validation/api-tests-github.txt",
-      "bytes": 590,
-      "sha256": "51a2794ef024b037ab48dc8f96bca3ce34e9c2a8a584b3a3fa8dd2bed230cf50"
+      "bytes": 589,
+      "sha256": "e3572d472c9ed015799b2d0ea92ac2b4e52c64d9acb8c41a5e892ef5828d3483"
     },
     {
-      "file": "docs/validation/manual-v6-review.json",
-      "bytes": 339,
-      "sha256": "7363cb27a0121fc826d213c7c2a32100156b8b22ed3546508ef91cb3bc53286b"
+      "file": "docs/validation/manual-v7-review.json",
+      "bytes": 396,
+      "sha256": "389d9f4a41823fd127f6bab348d5f9b26e92e01875c70e8760d36bbde265e493"
     },
     {
       "file": "docs/validation/openapi.json",
@@ -200,8 +200,8 @@
     },
     {
       "file": "docs/validation/public-download.json",
-      "bytes": 977,
-      "sha256": "434cfee31b94ffcd7668e39a5d8f1a3562e8395bcd9ff6800c8e70e5844fc8fb"
+      "bytes": 1128,
+      "sha256": "fd4150f014f3c9edcbbb717bd8fa03753d0d3b77d43b29cf332cdca2b88bd6f6"
     },
     {
       "file": "requirements-analysis.txt",

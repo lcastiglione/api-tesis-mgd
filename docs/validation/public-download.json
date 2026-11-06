@@ -2,7 +2,13 @@
   "download_url": "https://drive.google.com/file/d/16IpEVijsXvy_kTaYY7l2_zUHkxaDIr5g/view?usp=sharing",
   "anonymous_download": true,
   "cookies_used": false,
-  "started_with_empty_data_directory": true,
+  "started_with_empty_docker_volume": true,
+  "bundled_env": true,
+  "configuration_edits_required": false,
+  "host_uid_configuration_required": false,
+  "storage": "docker_named_volume",
+  "container_uid": 10001,
+  "volume_uid": 10001,
   "public_file_bytes": 1923264512,
   "expected_bytes": 1923264512,
   "public_file_sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
@@ -14,12 +20,11 @@
     "/docs": 200,
     "/api/v1/instruments": 200,
     "/api/v1/configuration-counts?instrument=SPY": 200,
-    "/tutorials/api": 200,
-    "/api/v1/verify-case": 200
+    "/tutorials/api": 200
   },
-  "case_verification_passed": true,
-  "manual_version": 6,
-  "status": "Anonymous download and API startup verified; original integrity requirements preserved.",
+  "api_tests_passed": 11,
+  "manual_version": 7,
+  "status": "Bundled .env, automatic volume permissions, anonymous download and API startup verified.",
   "second_start_reused_local_database": true,
   "database_unchanged_after_restart": true
 }
