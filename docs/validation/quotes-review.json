@@ -1,6 +1,6 @@
 {
-  "api_version": "2.3.0",
-  "selector_type": "HTML select in Swagger UI",
+  "api_version": "2.4.0",
+  "view": "Consola personalizada",
   "tickers": [
     "SPY",
     "QQQ",
@@ -10,64 +10,11 @@
     "TLT",
     "GLD"
   ],
-  "selected": "SPY",
-  "start_date": "2016-01-04",
-  "end_date": "2016-01-05",
-  "status": 200,
-  "returned_dates": [
-    "2016-01-04",
-    "2016-01-05"
-  ],
-  "first_close": "201.02000427246094",
-  "original_decimal_preserved": true,
-  "homepage_access_verified": true,
-  "stored_series": [
-    {
-      "ticker": "EEM",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "EFA",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "GLD",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "IWM",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "QQQ",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "SPY",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    },
-    {
-      "ticker": "TLT",
-      "rows": 2514,
-      "first_date": "2016-01-04",
-      "last_date": "2025-12-31"
-    }
-  ],
-  "api_tests_passed": 19,
-  "subtests_passed": 25,
-  "invalid_ticker_and_sql_rejected": true,
-  "date_range_and_pagination_checked": true,
-  "all_seven_tickers_match_stored_prices": true
+  "http_status": 200,
+  "rows_in_table": 2,
+  "source_close_preserved": "201.02000427246094",
+  "dates_inclusive": true,
+  "client_sql_field": false,
+  "limit_validation": true,
+  "html_injection_executed": false
 }

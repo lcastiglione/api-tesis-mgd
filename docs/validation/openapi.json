@@ -3,7 +3,7 @@
   "info": {
     "title": "API Tesis Robustez - MGD",
     "description": "Consulta de datos históricos y comprobación de casos. La base se abre en modo de solo lectura. Las fracciones se conservan: 0.10 representa 10%.\n\n⚠️ **Advertencia:** la API recibe únicamente parámetros validados. Las consultas se definen en el servidor y los valores se envían por separado para prevenir inyecciones SQL. No se admite código SQL del cliente.",
-    "version": "2.3.0"
+    "version": "2.4.0"
   },
   "paths": {
     "/status": {

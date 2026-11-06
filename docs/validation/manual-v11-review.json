@@ -1,0 +1,18 @@
+{
+  "manual_version": 11,
+  "pages": 19,
+  "custom_console_documented": true,
+  "swagger_instructions_removed": true,
+  "homepage_screenshot_updated": true,
+  "background_startup_documented": true,
+  "dates_omitted": true,
+  "safe_area_issues": [],
+  "sha256": "89fb9f8cfd089a835430a9f77d71736c5b6caf2769fb4e69f3767a2b57ea0052",
+  "matches_output": true,
+  "visual_review_pages": [
+    4,
+    8,
+    10,
+    17
+  ]
+}

@@ -12,8 +12,10 @@ cd api-tesis-mgd
 docker compose up --build -d
 ```
 
-Abrir **http://localhost:8000/**. El panel muestra la salud de la API, el avance
-de la descarga y los accesos a las consultas y al manual.
+Abrir **http://localhost:8000/**. La consola se abre mientras la API y la base
+se preparan en segundo plano. Muestra salud, progreso y problemas de descarga.
+El menú permite elegir una consulta, editar sus parámetros y ver la respuesta
+en JSON o tabla, en la misma pantalla.
 
 `.env` ya está configurado. La base se descarga automáticamente, sin credenciales
 de Google, en `data/study.sqlite`. Se verifica antes de habilitar las consultas
@@ -23,6 +25,6 @@ Si se elimina `data/study.sqlite`, el servicio vuelve a descargarla.
 
 ## Manual
 
-[Manual de uso de la API v10](docs/api-tutorial-v10.pdf).
+[Manual de uso de la API v11](docs/api-tutorial-v11.pdf).
 
 Para detener el servicio: `docker compose down`.

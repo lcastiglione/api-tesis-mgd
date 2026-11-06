@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 11,
   "author": "Ing. Leonardo J. Castiglione",
   "api": {
     "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
@@ -77,7 +77,7 @@
           },
           {
             "type": "text",
-            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. La página inicial permite seguir el avance. Las consultas se habilitan cuando muestra <b>Base lista para consultar</b>."
+            "text": "La primera construcción instala las dependencias. Al iniciar el servicio, la página web se habilita antes de cargar las consultas y preparar la base. Ambas tareas continúan en segundo plano: la pantalla permite seguir el avance y ver los problemas sin esperar a que terminen."
           },
           {
             "type": "code",
@@ -86,7 +86,7 @@
           },
           {
             "type": "text",
-            "text": "La página inicial reúne la salud de la API, el progreso de la base y los accesos a las demás secciones. <b>Consultas</b> abre las operaciones con sus parámetros; <b>Manual</b> descarga esta guía."
+            "text": "La misma pantalla reúne el estado, los parámetros y las respuestas. La base muestra <b>Lista</b> después de verificar tamaño, huella e integridad. <b>Salud API: Operativa</b> confirma que puede consultarse."
           },
           {
             "type": "callout",
@@ -101,13 +101,13 @@
         "blocks": [
           {
             "type": "text",
-            "text": "La dirección <b>http://localhost:8000/</b> presenta un panel azul oscuro que se adapta a la pantalla. Reúne la salud de la API, el progreso de la base y los accesos a las secciones."
+            "text": "La dirección <b>http://localhost:8000/</b> abre la consola. Su tamaño se adapta al monitor. Arriba se ve la salud del sistema; a la izquierda se elige una consulta y a la derecha se editan parámetros y se lee la respuesta."
           },
           {
             "type": "image",
-            "file": "api-home-ready-v10.png",
-            "height": 345,
-            "caption": "Captura del sistema con la base descargada, verificada y disponible para consultar."
+            "file": "api-home-ready-v11.png",
+            "height": 310,
+            "caption": "Consola real: estado superior, menú lateral, parámetros y respuesta en la misma pantalla."
           },
           {
             "type": "text",
@@ -119,11 +119,11 @@
           },
           {
             "type": "text",
-            "text": "• <b>Base SQLite y gráfico circular:</b> muestran la etapa y los bytes recibidos. El porcentaje corresponde a la descarga; la verificación se informa por separado."
+            "text": "• <b>Base SQLite:</b> reúne la etapa, el gráfico circular y el tamaño recibido. El porcentaje corresponde a la descarga; Verificando indica la comprobación posterior."
           },
           {
             "type": "text",
-            "text": "• <b>Accesos:</b> permiten abrir consultas, datos del estudio, resultados, motor, referencia, OpenAPI, estado JSON y manual. Los accesos directos a datos se habilitan cuando la API está operativa."
+            "text": "• <b>Consultas y respuesta:</b> el menú elige la operación. <b>Consultar</b> envía los parámetros. <b>JSON</b> muestra el cuerpo completo; <b>Tabla</b> organiza las listas de registros y <b>Copiar</b> copia el JSON. La respuesta puede desplazarse dentro de su panel."
           }
         ]
       },
@@ -176,19 +176,19 @@
                 "La base está instalada y verificada. La salud de la API confirma que las consultas pueden utilizarla."
               ],
               [
-                "Pendiente",
-                "La descarga o verificación no pudo completarse. El sistema conserva el detalle en los registros y vuelve a intentarlo automáticamente."
+                "Revisar",
+                "La preparación falló. Un aviso en la pantalla muestra la causa y el tiempo para volver a intentar. La página sigue disponible."
               ]
             ]
           },
           {
             "type": "text",
-            "text": "<b>/status</b> ofrece el mismo estado en JSON. Durante la preparación, <b>/health</b> y las consultas a datos responden <b>503</b>. La página inicial y el manual permanecen disponibles."
+            "text": "<b>Estado JSON</b> presenta /status dentro de la consola. Durante la preparación, las consultas de datos responden <b>503</b>; sus botones esperan a que la base esté lista. La salud se ve arriba, sin abrir otra página."
           },
           {
             "type": "callout",
             "level": "info",
-            "text": "Application startup complete confirma que el servidor web arrancó. Para consultar datos, la tarjeta Salud API debe indicar Operativa."
+            "text": "Si falta conexión a Drive, el aviso indica el problema de red y el próximo reintento automático. La descarga no bloquea la página. El primer arranque web no espera a tener la base completa."
           }
         ]
       },
@@ -309,15 +309,15 @@
         "blocks": [
           {
             "type": "text",
-            "text": "La dirección <b>http://localhost:8000/docs</b> presenta las operaciones disponibles. Cada renglón representa una consulta o una comprobación del sistema."
+            "text": "El menú de <b>http://localhost:8000/</b> reúne cotizaciones, estudio, instrumentos, configuraciones, recuentos, ejecuciones, indicadores, serie diaria, operaciones, motor, estado JSON y esquema API. En pantallas pequeñas se transforma en un selector."
           },
           {
             "type": "text",
-            "text": "La operación GET /api/v1/instruments enumera los instrumentos. <b>Try it out</b> habilita la prueba y <b>Execute</b> envía la consulta. La respuesta aparece debajo de la operación."
+            "text": "Por ejemplo, <b>Instrumentos</b> no requiere parámetros: se presiona <b>Consultar</b> y la respuesta aparece a la derecha. <b>Cotizaciones</b> permite elegir ticker, fechas y cantidad. Los campos obligatorios llevan un asterisco."
           },
           {
             "type": "text",
-            "text": "<b>GET</b> pide datos usando parámetros de la ruta. <b>POST /api/v1/verify-case</b> recibe un cuerpo JSON con el instrumento, la configuración y el bloque que se desea comprobar."
+            "text": "<b>GET</b> pide datos con filtros. <b>Motor</b> utiliza POST para comprobar un caso: la consola arma el JSON con los campos elegidos. No hace falta escribir código. El código HTTP y el tiempo de respuesta aparecen sobre el resultado."
           },
           {
             "type": "diagram",
@@ -378,7 +378,7 @@
           },
           {
             "type": "callout",
-            "text": "Los registros de docker compose logs -f api muestran el avance del arranque. Durante la descarga y la verificación inicial, el sistema todavía no recibe consultas. El estado correcto aparece cuando esas tareas finalizan.",
+            "text": "Durante la descarga y la verificación todavía no se consultan datos. La consola permanece disponible y muestra el progreso o un aviso con la causa del problema. Los registros se pueden revisar con docker compose logs -f api.",
             "level": "warning"
           }
         ]
@@ -389,7 +389,7 @@
         "blocks": [
           {
             "type": "text",
-            "text": "El acceso <b>Cotizaciones</b> del inicio abre GET /api/v1/quotes. En <b>Try it out</b>, el campo <b>ticker</b> presenta un selector con SPY, QQQ, IWM, EFA, EEM, TLT y GLD. Solo admite esos siete ETF."
+            "text": "La opción <b>Cotizaciones</b> permite elegir <b>Ticker</b> entre SPY, QQQ, IWM, EFA, EEM, TLT y GLD. Solo se admiten esos siete ETF. Los campos <b>Desde</b> y <b>Hasta</b> acotan las fechas; <b>Consultar</b> obtiene los datos y <b>Tabla</b> permite compararlos por filas."
           },
           {
             "type": "text",
@@ -602,7 +602,7 @@
         "blocks": [
           {
             "type": "text",
-            "text": "Cada operación admite una lista concreta de filtros. Los nombres y valores permitidos aparecen en <b>/docs</b>; un campo adicional o un valor inválido se rechaza."
+            "text": "Cada operación muestra sus filtros en la consola. Los selectores ofrecen valores permitidos y los campos numéricos tienen límites. El servidor también valida cada consulta: rechaza campos adicionales y valores inválidos."
           },
           {
             "type": "table",
@@ -643,7 +643,7 @@
           },
           {
             "type": "text",
-            "text": "<b>limit</b> indica cuántos resultados devuelve una página, con un máximo de 1000. <b>offset</b> indica cuántos resultados se omiten desde el inicio. Ambos están disponibles en configurations, executions, indicators, daily y operations."
+            "text": "<b>Resultados (limit)</b> indica cuántos registros devuelve una página, con un máximo de 1000. <b>Omitir (offset)</b> indica cuántos se saltan desde el inicio. Están disponibles en cotizaciones, configuraciones, ejecuciones, indicadores, serie diaria y operaciones."
           },
           {
             "type": "code",
@@ -677,6 +677,10 @@
                 "Contrasta con la ejecución original."
               ]
             ]
+          },
+          {
+            "type": "text",
+            "text": "En <b>Motor</b>, se eligen Instrumento, Configuración y Bloque. <b>Consultar</b> inicia la comprobación; el resultado aparece en el mismo panel. Por ejemplo: SPY, sma200 y 1 año."
           },
           {
             "type": "example",
@@ -740,7 +744,7 @@
           {
             "type": "callout",
             "level": "warning",
-            "text": "La ausencia de la base impide el arranque hasta que se incorpora el archivo correcto o se dispone del enlace público. Si el tamaño o SHA-256 difieren, el sistema conserva el rechazo y no modifica las huellas esperadas."
+            "text": "Una base ausente o un problema de red no impiden abrir la consola. El aviso superior explica el problema y el reintento. Si el tamaño o SHA-256 difieren, la base se rechaza: las consultas esperan y las huellas esperadas se conservan."
           }
         ]
       },
@@ -754,7 +758,7 @@
           },
           {
             "type": "text",
-            "text": "Las pruebas verifican cantidades, recuentos por familia, filtros, paginación, detalle diario, rechazo de campos adicionales, entradas de inyección, ausencia de rutas SQL y reproducción de un caso real."
+            "text": "Las pruebas verifican el arranque web previo a los trabajadores, la página disponible ante fallos, los errores visibles y las consultas. Se comprobaron filtros, paginación, precios guardados, respuestas JSON y tabla, rechazo de SQL y reproducción de un caso real."
           },
           {
             "type": "text",
@@ -771,11 +775,11 @@
           },
           {
             "type": "text",
-            "text": "API v2.3 · Manual v10 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+            "text": "API v2.4 · Manual v11 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
           }
         ]
       }
     ],
-    "version": 10
+    "version": 11
   }
 }

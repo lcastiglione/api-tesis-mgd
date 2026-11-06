@@ -1,0 +1,74 @@
+{
+  "api_version": "2.4.0",
+  "production_command": [
+    "python",
+    "-m",
+    "app.server"
+  ],
+  "socket_before_workers_test": "tests/test_server.py::ServerTests::test_listener_and_ui_are_available_before_slow_workers_finish",
+  "offline_container": {
+    "first_http_after_probe_seconds": 0.8607297239941545,
+    "home_status": 200,
+    "events": [
+      {
+        "api_version": "2.4.0",
+        "api_loaded": false,
+        "services": {
+          "api": "loading",
+          "database": "downloading"
+        },
+        "phase": "downloading",
+        "message": "Se descarga la base pública de Google Drive. Esta página muestra el avance real.",
+        "ready": false,
+        "download": {
+          "received_bytes": 0,
+          "total_bytes": 1923264512,
+          "percent": 0.0
+        },
+        "database": {
+          "installed": false,
+          "phase": "downloading",
+          "bytes": 1923264512,
+          "version": 2,
+          "storage_revision": 3,
+          "read_only": true
+        },
+        "error": null,
+        "retry_in_seconds": null
+      },
+      {
+        "api_version": "2.4.0",
+        "api_loaded": true,
+        "services": {
+          "api": "ready",
+          "database": "error"
+        },
+        "phase": "error",
+        "message": "No se pudo resolver la dirección de Google Drive.",
+        "ready": false,
+        "download": {
+          "received_bytes": 0,
+          "total_bytes": 1923264512,
+          "percent": 0.0
+        },
+        "database": {
+          "installed": false,
+          "phase": "error",
+          "bytes": 1923264512,
+          "version": 2,
+          "storage_revision": 3,
+          "read_only": true
+        },
+        "error": {
+          "code": "dns_error",
+          "message": "No se pudo resolver la dirección de Google Drive.",
+          "source": "database"
+        },
+        "retry_in_seconds": 30
+      }
+    ],
+    "total_probe_seconds": 2.133,
+    "mode": "Contenedor con CMD real y sin acceso de red; no se descargan datos."
+  },
+  "caveat": "El tiempo registrado comienza en el sondeo interno del contenedor y no garantiza el mismo tiempo en otros equipos."
+}

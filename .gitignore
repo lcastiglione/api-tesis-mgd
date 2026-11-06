@@ -32,6 +32,8 @@ docs/validation/*
 !docs/validation/manual-v8-review.json
 !docs/validation/manual-v9-review.json
 !docs/validation/manual-v10-review.json
+!docs/validation/manual-v11-review.json
+!docs/validation/startup-review.json
 !docs/validation/quotes-review.json
 !docs/validation/database-recovery.json
 !docs/validation/status-page-review.json
