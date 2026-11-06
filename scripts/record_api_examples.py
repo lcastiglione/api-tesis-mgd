@@ -22,6 +22,7 @@ def record(base_url: str) -> None:
     call('health','/health')
     call('study','/api/v1/study')
     call('instruments','/api/v1/instruments')
+    call('quotes','/api/v1/quotes?ticker=SPY&start_date=2016-01-04&end_date=2016-01-05&limit=1')
     call('configurations','/api/v1/configurations?instrument=SPY&family=P-SMA&limit=1')
     execution = call('execution','/api/v1/executions?instrument=SPY&configuration=sma200&length=1&limit=1')['items'][0]['execution_id']
     call('indicators',f'/api/v1/executions/{execution}/indicators?segment=OOS_continuous&metric=return_annualized&limit=2')

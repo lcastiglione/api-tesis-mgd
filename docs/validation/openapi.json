@@ -3,7 +3,7 @@
   "info": {
     "title": "API Tesis Robustez - MGD",
     "description": "Consulta de datos históricos y comprobación de casos. La base se abre en modo de solo lectura. Las fracciones se conservan: 0.10 representa 10%.\n\n⚠️ **Advertencia:** la API recibe únicamente parámetros validados. Las consultas se definen en el servidor y los valores se envían por separado para prevenir inyecciones SQL. No se admite código SQL del cliente.",
-    "version": "2.2.0"
+    "version": "2.3.0"
   },
   "paths": {
     "/status": {
@@ -89,6 +89,124 @@
                   "additionalProperties": true,
                   "type": "object",
                   "title": "Response Instruments Api V1 Instruments Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes": {
+      "get": {
+        "tags": [
+          "Cotizaciones"
+        ],
+        "summary": "Consultar las cotizaciones guardadas",
+        "description": "Devuelve precios históricos de SQLite; ticker se elige en un selector cerrado.\n\nLas fechas son inclusivas y los registros se ordenan desde el más antiguo.\nLos precios conservan el texto decimal original. open, high, low y close\ncorresponden a OHLC; adj_close y adj_open/adj_high/adj_low son precios ajustados.\nLa consulta no descarga precios nuevos ni modifica la base.",
+        "operationId": "quotes_api_v1_quotes_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "SPY",
+                "QQQ",
+                "IWM",
+                "EFA",
+                "EEM",
+                "TLT",
+                "GLD"
+              ],
+              "type": "string",
+              "description": "ETF disponible en la base del estudio.",
+              "title": "Ticker"
+            },
+            "description": "ETF disponible en la base del estudio."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha inicial incluida, en formato AAAA-MM-DD.",
+              "title": "Start Date"
+            },
+            "description": "Fecha inicial incluida, en formato AAAA-MM-DD."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha final incluida, en formato AAAA-MM-DD.",
+              "title": "End Date"
+            },
+            "description": "Fecha final incluida, en formato AAAA-MM-DD."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Quotes Api V1 Quotes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }

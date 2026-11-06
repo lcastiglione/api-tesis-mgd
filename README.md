@@ -1,6 +1,6 @@
 # API Tesis Robustez - MGD
 
-Consulta de la base del estudio y comprobación de casos con el motor Python.
+Consulta de la base, cotizaciones guardadas y comprobación de casos con el motor Python.
 
 ## Inicio
 
@@ -23,6 +23,6 @@ Si se elimina `data/study.sqlite`, el servicio vuelve a descargarla.
 
 ## Manual
 
-[Manual de uso de la API v9](docs/api-tutorial-v9.pdf).
+[Manual de uso de la API v10](docs/api-tutorial-v10.pdf).
 
 Para detener el servicio: `docker compose down`.

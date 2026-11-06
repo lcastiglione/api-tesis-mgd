@@ -40,7 +40,9 @@ def approximate_values(value, key: str = ''):
     except InvalidOperation:
         return value
     if not number.is_finite():return value
-    if key in {'equity','cash','previous_equity','commission','vat','spread_cost','slippage_cost','total_cost'}:
+    if key in {'open','high','low','close','adj_close','adj_open','adj_high','adj_low'}:
+        number=number.quantize(Decimal('0.01'),rounding=ROUND_HALF_UP)
+    elif key in {'equity','cash','previous_equity','commission','vat','spread_cost','slippage_cost','total_cost'}:
         number=number.quantize(Decimal('1'),rounding=ROUND_HALF_UP)
     elif number and number!=number.to_integral_value():
         number=number.quantize(Decimal(1).scaleb(number.adjusted()-2),rounding=ROUND_HALF_UP)

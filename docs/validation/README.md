@@ -1,15 +1,16 @@
-# Validación del motor y la API 2.2.0
+# Validación del motor y la API 2.3.0
 
 Comprobaciones realizadas en Linux con Docker.
 
 | Comprobación | Resultado y evidencia |
 |---|---|
-| Motor, API y transporte | 16 pruebas aprobadas; `api-tests-github.txt`. |
-| Página inicial | Panel oscuro sin desplazamiento en 84 combinaciones de tamaño y estado; salud real y doce accesos; `status-page-review.json`. |
+| Motor, API y transporte | 19 pruebas aprobadas; `api-tests-github.txt`. |
+| Página inicial | Panel oscuro sin desplazamiento en 84 combinaciones de tamaño y estado; salud real y trece accesos; `status-page-review.json`. |
 | Reposición de SQLite | Dos descargas íntegras, sin reiniciar; `database-recovery.json`. |
+| Cotizaciones guardadas | Selector probado en Swagger con siete ETF, fechas y precios originales; `quotes-review.json`. |
 | Contrato por parámetros | Rutas y esquemas vigentes; `openapi.json`. |
 | Ejemplos HTTP | Cuerpos originales conservados; `../api-examples.json`. |
-| Manual API v9 | Captura del panel oscuro e indicadores de salud; `manual-v9-review.json`. |
+| Manual API v10 | Selector y ejemplo de cotizaciones, captura e indicadores; `manual-v10-review.json`. |
 | Descarga pública | `.env` incluido, volumen vacío, descarga completa y consultas HTTP verificados; `public-download.json`. |
 
 Las pruebas de descarga usan bases mínimas y comprueban SQLite directo, gzip,

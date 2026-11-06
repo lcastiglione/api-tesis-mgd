@@ -1,5 +1,5 @@
 {
-  "version": 9,
+  "version": 10,
   "author": "Ing. Leonardo J. Castiglione",
   "api": {
     "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
@@ -105,7 +105,7 @@
           },
           {
             "type": "image",
-            "file": "api-home-ready-v9.png",
+            "file": "api-home-ready-v10.png",
             "height": 345,
             "caption": "Captura del sistema con la base descargada, verificada y disponible para consultar."
           },
@@ -380,6 +380,51 @@
             "type": "callout",
             "text": "Los registros de docker compose logs -f api muestran el avance del arranque. Durante la descarga y la verificación inicial, el sistema todavía no recibe consultas. El estado correcto aparece cuando esas tareas finalizan.",
             "level": "warning"
+          }
+        ]
+      },
+      {
+        "title": "Las cotizaciones guardadas",
+        "section": "5 · Consultas del estudio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "El acceso <b>Cotizaciones</b> del inicio abre GET /api/v1/quotes. En <b>Try it out</b>, el campo <b>ticker</b> presenta un selector con SPY, QQQ, IWM, EFA, EEM, TLT y GLD. Solo admite esos siete ETF."
+          },
+          {
+            "type": "text",
+            "text": "<b>start_date</b> y <b>end_date</b> son opcionales e incluyen ambas fechas. <b>limit</b> fija cuántos registros se muestran y <b>offset</b> permite avanzar. Los precios aparecen desde la fecha más antigua."
+          },
+          {
+            "type": "example",
+            "name": "quotes",
+            "fields": [
+              "ticker",
+              "items",
+              "has_more"
+            ],
+            "item_fields": [
+              "date",
+              "open",
+              "close",
+              "adj_close",
+              "volume"
+            ],
+            "max_items": 1,
+            "approximate": true
+          },
+          {
+            "type": "text",
+            "text": "• <b>open y close:</b> apertura y cierre guardados. <b>adj_close:</b> cierre ajustado. <b>volume:</b> cantidad negociada."
+          },
+          {
+            "type": "text",
+            "text": "• <b>has_more: true:</b> quedan registros dentro del intervalo. En este ejemplo, offset=1 permite consultar la siguiente fecha."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "El ejemplo muestra precios aproximados a dos decimales. La respuesta de la API conserva el texto original de SQLite. Son cotizaciones históricas del estudio: la consulta no descarga precios nuevos."
           }
         ]
       },
@@ -726,11 +771,11 @@
           },
           {
             "type": "text",
-            "text": "API v2.2 · Manual v9 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+            "text": "API v2.3 · Manual v10 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
           }
         ]
       }
     ],
-    "version": 9
+    "version": 10
   }
 }

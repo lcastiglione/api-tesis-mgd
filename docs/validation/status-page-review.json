@@ -1,10 +1,14 @@
 {
-  "api_version": "2.2.0",
+  "api_version": "2.3.0",
   "color_scheme": "dark",
   "health_endpoint_polled": "/health",
   "health_shown_as_indicator": true,
   "health_navigation_link": false,
   "section_links": [
+    {
+      "text": "Cotizaciones↗",
+      "url": "/docs#/Cotizaciones/quotes_api_v1_quotes_get"
+    },
     {
       "text": "Consultas↗",
       "url": "/docs"
@@ -121,7 +125,7 @@
   "page_errors": [],
   "real_health": {
     "status": "ok",
-    "api_version": "2.2.0",
+    "api_version": "2.3.0",
     "database_version": 2,
     "storage_revision": 3,
     "read_only": true

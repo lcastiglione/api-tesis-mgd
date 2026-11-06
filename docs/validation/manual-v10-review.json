@@ -1,0 +1,16 @@
+{
+  "manual_version": 10,
+  "pages": 19,
+  "quotes_selector_documented": true,
+  "quotes_example_from_http": true,
+  "prices_rounded_to_two_decimals_in_example_only": true,
+  "homepage_screenshot_updated": true,
+  "dates_omitted": true,
+  "safe_area_issues": [],
+  "sha256": "55f7332ceefeb5a90d3f19be7fbd189663cfebde2e4018e09f6d02508d6a8f84",
+  "matches_output": true,
+  "visual_review_pages": [
+    4,
+    10
+  ]
+}
