@@ -29,4 +29,7 @@ docs/validation/*
 !docs/validation/public-download.json
 !docs/validation/openapi.json
 !docs/validation/manual-v7-review.json
+!docs/validation/manual-v8-review.json
+!docs/validation/database-recovery.json
+!docs/validation/status-page-review.json
 !docs/validation/public-files.json

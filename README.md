@@ -1,6 +1,6 @@
 # API Tesis Robustez - MGD
 
-Entrega **2.0.0** · API **2.0.0** · manual **v7**.
+Entrega **2.1.0** · API **2.1.0** · manual **v8**.
 
 El proyecto permite consultar la base analítica por HTTP, repetir un caso con el
 motor Python y comprobar los análisis en memoria. Incluye motor v9 y SQLite v2r3:
@@ -21,32 +21,35 @@ docker compose logs -f api
 
 El archivo `.env` ya está incluido en el repositorio y contiene el enlace público
 de la base y el puerto 8000. Docker Compose lo lee automáticamente: no hace falta
-copiarlo, editarlo ni configurar credenciales de Google. La primera descarga puede
-demorar; el mensaje
-`Application startup complete` indica que la API está preparada.
+copiarlo, editarlo ni configurar credenciales de Google. Al terminar la construcción
+se puede abrir **http://localhost:8000/**: la página muestra el estado, los bytes
+recibidos y el porcentaje real de descarga. Después muestra la verificación y,
+cuando termina, **La API está lista para usar** y habilita el acceso a las consultas.
+
+![Página inicial con el servidor en línea y una descarga real en curso](docs/images/api-home-downloading-v8.png)
+
+La esquina superior confirma la salud del servidor. La tarjeta central muestra el
+progreso de descarga y la verificación de la base; **Disponible** confirma que ya
+se pueden consultar los datos.
 
 | Dirección | Uso |
 |---|---|
+| http://localhost:8000/ | Estado del servidor, descarga, verificación y acceso a las consultas. |
+| http://localhost:8000/status | El mismo estado en JSON; funciona sin tener la base. |
 | http://localhost:8000/docs | Probar consultas con botones y parámetros. |
 | http://localhost:8000/health | Comprobar que la API puede abrir la base verificada. |
 | http://localhost:8000/tutorials/api | Descargar el manual de la API. |
 
 `Ctrl+C` termina la lectura de registros; `docker compose down` detiene el servicio.
-Docker conserva la base en un volumen persistente que se crea automáticamente.
-No hace falta preparar carpetas ni ajustar permisos. El puerto predeterminado es
+La base se conserva en **`data/study.sqlite` dentro de la carpeta del proyecto**,
+montada como `/data/study.sqlite` en el contenedor. No hace falta preparar carpetas
+ni ajustar permisos: el servicio adapta su usuario al directorio y se ejecuta sin
+privilegios. El puerto predeterminado es
 **8000**.
 
-Si la API corre en otro equipo, se puede reenviar su puerto por SSH:
-
-```bash
-ssh -N -L 8000:127.0.0.1:8000 usuario@equipo-remoto
-```
-
-El túnel se mantiene abierto mientras se usa http://localhost:8000/docs desde
-el navegador local. Si ese puerto local está ocupado, se utiliza
-`-L 18000:127.0.0.1:8000` y se abre http://localhost:18000/docs. El puerto del
-servidor sigue siendo 8000. Desde un escritorio remoto, `localhost` identifica
-al equipo donde se ejecuta ese navegador.
+Si el puerto 8000 del equipo donde corre Docker está ocupado, se puede iniciar
+sin editar archivos con `API_PORT=18000 docker compose up --build -d` desde
+Bash o WSL. En ese caso se abre http://localhost:18000/.
 
 ## Descarga automática de la base
 
@@ -66,15 +69,35 @@ dependencias.
 
 En cada arranque se sigue este orden:
 
-1. Si existe `/data/study.sqlite` en el volumen, se verifica y utiliza.
-2. Si existe `/data/study.sqlite.gz` en el volumen, se verifica y expande.
+1. Si existe `data/study.sqlite` en el proyecto, se verifica y utiliza.
+2. Si existe `data/study.sqlite.gz` en el proyecto, se verifica y expande.
 3. Si faltan ambos, se descarga del enlace público a un archivo provisional. Se
    verifican tamaño, SHA-256 e integridad antes de instalar la copia definitiva.
    Si `download_format` indica `gzip`, también se verifica y expande el archivo.
 
 Drive se invoca con `use_cookies=False`. Una descarga incorrecta se rechaza;
-las huellas no se ajustan para aceptarla. La base se encuentra en
-`/data/study.sqlite` dentro del contenedor, sin depender del usuario del equipo.
+las huellas no se ajustan para aceptarla. Durante la preparación, la página inicial,
+`/status`, `/docs` y el manual permanecen disponibles. Las consultas a datos y
+`/health` responden **503** con `Retry-After` hasta que la base está verificada.
+El control de Docker consulta `/status` para comprobar que el servidor web está
+disponible durante la descarga; la preparación de los datos se consulta en `/health`.
+`Application startup complete` confirma que el servidor web arrancó; el estado
+**Disponible** de la página o `/health` con **200** confirman que la base está lista.
+
+Si falla la descarga, el estado informa el problema y reintenta automáticamente.
+Los registros conservan el detalle. El progreso mide los bytes recibidos, sin
+inventar un porcentaje para la verificación.
+
+### Probar la descarga otra vez
+
+Se puede eliminar **solo `data/study.sqlite`** desde el equipo. El servicio detecta
+su ausencia, suspende las consultas y vuelve a descargar y verificar la base.
+No hace falta reiniciar el contenedor. La página inicial permite seguir todo el
+proceso. Si queda un `data/study.sqlite.gz` válido, se utilizará esa copia local.
+
+`data/manifest.json` y `data/README.md` se conservan. SQLite, gzip y los archivos
+provisionales quedan excluidos mediante `.gitignore` y `.dockerignore`, por lo que no se
+publican en GitHub ni se incorporan a la imagen Docker.
 
 ## Configuración incluida
 
@@ -87,7 +110,7 @@ API_PORT=8000
 ```
 
 `DATABASE_URL` indica la descarga pública y `API_PORT` establece el puerto 8000.
-Docker gestiona el usuario del contenedor y el volumen de datos. Los arranques
+Docker adapta el usuario del contenedor al directorio de datos. Los arranques
 siguientes reutilizan la base verificada.
 
 ## Consultas por parámetros
@@ -150,9 +173,9 @@ espacio temporal en memoria; no vuelve a simular los 945 casos ni cambia SQLite.
 
 | Ruta | Contenido |
 |---|---|
-| `app/` | API y descarga/verificación de la base. |
+| `app/` | API, página de estado y descarga/verificación en segundo plano. |
 | `calculator/` | Motor y análisis Python v9. |
-| `data/` | Manifiesto de identidad/descarga; la base se guarda en el volumen Docker. |
+| `data/` | Manifiesto y base descargada; SQLite y los provisionales quedan fuera de Git y de la imagen. |
 | `docs/` | Manual API, ejemplos HTTP y evidencia. |
 | `scripts/` | Registro de ejemplos y generación del manual. |
 | `tests/` | Pruebas con base real y descarga simulada. |
@@ -170,7 +193,10 @@ docker build --target test -t api-tesis-mgd:test .
 docker run --rm --volumes-from "$(docker compose ps -q api):ro" api-tesis-mgd:test
 ```
 
-Las pruebas consultan la base real y reproducen un caso. Las pruebas de descarga
+Las pruebas consultan la base real y reproducen un caso. Comprueban que la página
+funciona durante la descarga, que los datos responden 503 hasta estar preparados,
+que los errores se muestran y reintentan, y que borrar SQLite genera otra descarga.
+Las pruebas de descarga
 también comprueban la instalación atómica, el rechazo de archivos alterados y la
 reutilización de la copia local, tanto para SQLite como para gzip.
 
@@ -183,7 +209,7 @@ python3 scripts/build_tutorials.py
 ```
 
 Los textos, la versión simple y los esquemas están en `docs/tutorial-content.json`.
-El PDF se genera en `docs/api-tutorial-v7.pdf` y conserva el marco, la portada
+El PDF se genera en `docs/api-tutorial-v8.pdf` y conserva el marco, la portada
 ilustrada, consultas y respuestas con estilo, y el nombre del autor en cada pie.
 No incluye fechas de edición ni fechas en sus metadatos.
 

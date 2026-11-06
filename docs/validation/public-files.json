@@ -1,7 +1,7 @@
 {
-  "version": "2.0.0",
-  "manual": "api-v7",
-  "scope": "Código del motor y la API, configuración Docker, pruebas y manual. Excluye SQLite, Excel, credenciales e historial privado. No incluye su propia huella.",
+  "version": "2.1.0",
+  "manual": "api-v8",
+  "scope": "Código del motor y la API, página de estado, configuración Docker, pruebas y manual. Excluye SQLite, Excel, credenciales e historial privado. No incluye su propia huella.",
   "files": [
     {
       "file": ".dockerignore",
@@ -20,23 +20,23 @@
     },
     {
       "file": ".gitignore",
-      "bytes": 455,
-      "sha256": "cdb3cff7c7e73f2ea45d288cba6151f38cab2e90b844f36730cd8a6fece59ced"
+      "bytes": 575,
+      "sha256": "0bc7490519e31bf04d40f05095bbf8c7dcd050da45e77717449be6f6854842ea"
     },
     {
       "file": "Dockerfile",
-      "bytes": 915,
-      "sha256": "88de0277529af732fe8a5628d62cba7812ae0bfc58d010c3b54d8c7d0e0bc2e6"
+      "bytes": 937,
+      "sha256": "61d7de399f9926c5b22af74504d2704de1937db56238efa773c8a93e8621c928"
     },
     {
       "file": "README.md",
-      "bytes": 8796,
-      "sha256": "6053b844bfeabd443d81e75a8661d555d5beedf94ec645075e428a5da67f332e"
+      "bytes": 10794,
+      "sha256": "86af36676f66c2aee8750d9e8a418dc2c00aa0c96902311d7526c7b006887b8e"
     },
     {
       "file": "VERSION",
       "bytes": 6,
-      "sha256": "c28fcca53637bc88e124af1725df13cb98c69dedefd62fb3cdbe1cdb6b760624"
+      "sha256": "c89b87c262e9d5ffd20e73aac74a1772adcc9f5a21682cc33adcf5086e5fef5c"
     },
     {
       "file": "app/__init__.py",
@@ -45,13 +45,43 @@
     },
     {
       "file": "app/bootstrap.py",
-      "bytes": 4903,
-      "sha256": "3e893c7fd237ffeb90a25a54666efc9952dcb243ce7dee979676df5a21a8642a"
+      "bytes": 6536,
+      "sha256": "95dc60231e34aa5cd6929f202dd23fd903c89c41ceb124abdc7de7e6981b103b"
+    },
+    {
+      "file": "app/entrypoint.py",
+      "bytes": 857,
+      "sha256": "dbfde52fb1984ff7a7658f07deb08af95d299f63e1a7771eae6ab62c37b100ee"
     },
     {
       "file": "app/main.py",
-      "bytes": 11965,
-      "sha256": "230fe152ecac40ff35d2bdfcbc71e5b01b14264469ecd0b9259eb2e79c50e279"
+      "bytes": 13286,
+      "sha256": "55f46d75ec8170b7d3c030d19967e473821885cb742f71d2af20e155b1f1bd7d"
+    },
+    {
+      "file": "app/preparation.py",
+      "bytes": 4728,
+      "sha256": "d096b7b059fc2716e5f6567790ea9f9650b664f77c03ce3f295587a95be170b3"
+    },
+    {
+      "file": "app/static/index.html",
+      "bytes": 3689,
+      "sha256": "63b304b9c290b5592547d8c1795b29399b347b4c9e3a0bb32198618cbf599294"
+    },
+    {
+      "file": "app/static/mark.svg",
+      "bytes": 282,
+      "sha256": "4e26f4a0fc14e861f6c7c1d2ce463d04096ff1dceb6a77f0b912d6be7ca18369"
+    },
+    {
+      "file": "app/static/status.css",
+      "bytes": 6412,
+      "sha256": "37f2ab621587ec55507f1784e1a93e6d7ed521ce25eec150d8aa1d13c0470d44"
+    },
+    {
+      "file": "app/static/status.js",
+      "bytes": 5338,
+      "sha256": "ba65130589abac3114eea8bad510a9bef09740473169175558033fb7909c3573"
     },
     {
       "file": "app/utils/__init__.py",
@@ -135,28 +165,38 @@
     },
     {
       "file": "compose.yaml",
-      "bytes": 319,
-      "sha256": "1c3f0925e6239aa89b0712f14c4100b48b106683b95fe208904da1a9f7c78eaf"
+      "bytes": 291,
+      "sha256": "30ab7cf152bec8fa56f1051e5a66f86d9fed345858641e0e72ba07d17954f12e"
     },
     {
       "file": "data/README.md",
-      "bytes": 1009,
-      "sha256": "d06da56d9685c7014ad38a0d21404a0fd67e823315c6a534c0675968ff722df6"
+      "bytes": 1415,
+      "sha256": "8cb60e1bacc6f685e8949b7ad31230fcf9a5e6abf8b33cfcf70ca41a2037b4d3"
     },
     {
       "file": "data/manifest.json",
       "bytes": 678,
-      "sha256": "9d5ad3eaed2dc12ccc642412d663e522b138fe74ce6183a57f27dec7d1b09822"
+      "sha256": "611726189a0c4a1ff37d8a85d19d36641af352906807c97da969473744999324"
     },
     {
       "file": "docs/api-examples.json",
-      "bytes": 12927,
-      "sha256": "cfe16c04a3428974c677d9fed5382f0d7d22db17cbdbcc2844743841eefe1dc1"
+      "bytes": 12924,
+      "sha256": "c7f966f5fd668af8551e625fd3c33dc345f7a6b40566ee3f930837f9c5c1ad01"
     },
     {
-      "file": "docs/api-tutorial-v7.pdf",
-      "bytes": 1937583,
-      "sha256": "009e4b956cccb1a0b5f681dc376d20c0f856c30f33c390adcaf2106518bf9360"
+      "file": "docs/api-tutorial-v8.pdf",
+      "bytes": 2262611,
+      "sha256": "804b8a7c2c0465addd0bc1043a84f5f9eadebffac98ec721795040a1aac24b25"
+    },
+    {
+      "file": "docs/images/api-home-downloading-v8.png",
+      "bytes": 347220,
+      "sha256": "fc41fad5e50b812438dccbdcb16bd4b7bdf37b67a03cbfa48542b27e36a97c88"
+    },
+    {
+      "file": "docs/images/api-home-ready-v8.png",
+      "bytes": 341272,
+      "sha256": "c11a18485e133c49cb3659fba625b9f698f23191af4505b9ffa72d01e6240938"
     },
     {
       "file": "docs/images/cover-api-v2.png",
@@ -175,18 +215,23 @@
     },
     {
       "file": "docs/tutorial-content.json",
-      "bytes": 26004,
-      "sha256": "9f44e4b9ea312f612a2326da0aa926a9e38a0df53f492b337c9088816a68a23b"
+      "bytes": 30903,
+      "sha256": "6846bef5f9d6b12976e4e5e074799ac52801a76143980bba26949309e1d3a4e3"
     },
     {
       "file": "docs/validation/README.md",
-      "bytes": 1654,
-      "sha256": "ee54d4058b3897d353bf7d68d32ef9716065670b6fe327678bba367bfb7033b8"
+      "bytes": 2259,
+      "sha256": "f256c78562154919e2a077d1e6a1856215b94b05ab2441519dd27698c2354a35"
     },
     {
       "file": "docs/validation/api-tests-github.txt",
       "bytes": 589,
-      "sha256": "e3572d472c9ed015799b2d0ea92ac2b4e52c64d9acb8c41a5e892ef5828d3483"
+      "sha256": "f3e9affd57dc765b155d42008bf700f21967122ae79ccb966d1c000966fa79df"
+    },
+    {
+      "file": "docs/validation/database-recovery.json",
+      "bytes": 886,
+      "sha256": "8bb216f8118a539edbaf76eec5bb0fc1c75f7b0fa4981e34291e48a9f04d69d4"
     },
     {
       "file": "docs/validation/manual-v7-review.json",
@@ -194,14 +239,24 @@
       "sha256": "389d9f4a41823fd127f6bab348d5f9b26e92e01875c70e8760d36bbde265e493"
     },
     {
+      "file": "docs/validation/manual-v8-review.json",
+      "bytes": 467,
+      "sha256": "c086beb003171ca277131c401619a6c0a04b7c39f8b7d3623f154063520ed5cf"
+    },
+    {
       "file": "docs/validation/openapi.json",
-      "bytes": 21085,
-      "sha256": "f34056a77a2af49b7bcf97c9840bb1defce8b869c3358b4e963e6a96c9b7b55f"
+      "bytes": 21585,
+      "sha256": "db5ee6e4ef21dc01eb9ed67a2ba54313b5d1403f41b65272fdc8e60cc6a3411c"
     },
     {
       "file": "docs/validation/public-download.json",
       "bytes": 1128,
       "sha256": "fd4150f014f3c9edcbbb717bd8fa03753d0d3b77d43b29cf332cdca2b88bd6f6"
+    },
+    {
+      "file": "docs/validation/status-page-review.json",
+      "bytes": 1747,
+      "sha256": "60c7a1d1754dd294e830172d80437686c2317b17bf21f9c17f09bd1e88ca0c5c"
     },
     {
       "file": "requirements-analysis.txt",
@@ -230,8 +285,13 @@
     },
     {
       "file": "tests/test_api.py",
-      "bytes": 11863,
-      "sha256": "1e2d1f624e73addeebe4b53b27a88cf5b1a41a727fda0074d4ce7a16e502d8ed"
+      "bytes": 12092,
+      "sha256": "e50f48ab38376656a6d09288c9eabf835c099fa6cca6242195a2a0d8e5789202"
+    },
+    {
+      "file": "tests/test_preparation.py",
+      "bytes": 7381,
+      "sha256": "8ae4c19a6305759390ae5a65900ae7d10e0cd7054a4a9318b11e3e21970c18b5"
     }
   ]
 }

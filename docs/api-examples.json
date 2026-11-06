@@ -1,7 +1,7 @@
 {
-  "recorded_at": "2026-11-06T11:48:20.786310+00:00",
+  "recorded_at": "2026-11-06T14:38:15.256739+00:00",
   "transport": "HTTP",
-  "base_url": "http://192.168.1.177:8000",
+  "base_url": "http://localhost:18000",
   "examples": {
     "health": {
       "method": "GET",
@@ -10,7 +10,7 @@
       "status": 200,
       "response": {
         "status": "ok",
-        "api_version": "2.0.0",
+        "api_version": "2.1.0",
         "database_version": 2,
         "storage_revision": 3,
         "read_only": true
@@ -360,17 +360,17 @@
       },
       "status": 200,
       "response": {
-        "execution_id": "api-check-2b743af60c9a4d10af790097625a00fc",
+        "execution_id": "api-check-8d828e44492d499a961cd475a1f16f3a",
         "engine_version": 9,
         "instrument": "SPY",
         "config_key": "sma200",
         "length_years": 1,
-        "created_at": "2026-11-06T11:48:19.974929+00:00",
+        "created_at": "2026-11-06T14:38:14.450711+00:00",
         "runtime": {
           "python": "3.13.15",
           "sqlite": "3.46.1",
           "code": {
-            "engine.py": "5878beb310c3c7f2d4ed304e9ead4cb230a87a4dee125e17073c39340cde3bc3",
+            "engine.py": "d0d70353dc075ff285a517c52d1c0c1114a3b87521435cfba4931936f8cccca7",
             "metrics.py": "36b4a813c685f4ed16aabd7b2dd136d140207f5cc8e5b8985cecc3d3737a23b9",
             "design.py": "ab8312c2b4c6142cc0543abcb48b8142fb0ddb8ed366d04b258b2bbaa42d969f",
             "quality.py": "883df032bf3ab742bcdfe11de795b658b9e2b9c216313bd0d49d7bd8b5a90ee8",

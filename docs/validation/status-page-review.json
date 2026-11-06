@@ -1,0 +1,70 @@
+{
+  "downloading": {
+    "state": {
+      "api_version": "2.1.0",
+      "phase": "downloading",
+      "message": "Se descarga la base pública de Google Drive. Esta página muestra el avance real.",
+      "ready": false,
+      "download": {
+        "received_bytes": 120061952,
+        "total_bytes": 1923264512,
+        "percent": 6.2
+      },
+      "database": {
+        "installed": false,
+        "bytes": 1923264512,
+        "version": 2,
+        "storage_revision": 3,
+        "read_only": true
+      },
+      "retry_in_seconds": null
+    },
+    "desktop": {
+      "width": 1160,
+      "body": 1160,
+      "title": "API Tesis Robustez - MGD",
+      "heading": "Descargando la base de datos",
+      "button": "true"
+    },
+    "mobile": {
+      "width": 390,
+      "body": 390
+    },
+    "page_errors": [],
+    "transport": "Real HTTP requests to the running API on localhost."
+  },
+  "ready": {
+    "state": {
+      "api_version": "2.1.0",
+      "phase": "ready",
+      "message": "La base está descargada y verificada. La API ya admite consultas.",
+      "ready": true,
+      "download": {
+        "received_bytes": 1923264512,
+        "total_bytes": 1923264512,
+        "percent": 100
+      },
+      "database": {
+        "installed": true,
+        "bytes": 1923264512,
+        "version": 2,
+        "storage_revision": 3,
+        "read_only": true
+      },
+      "retry_in_seconds": null
+    },
+    "desktop": {
+      "width": 1160,
+      "body": 1160,
+      "title": "API Tesis Robustez - MGD",
+      "heading": "La API está lista para usar",
+      "button": "false"
+    },
+    "mobile": {
+      "width": 390,
+      "body": 390
+    },
+    "page_errors": [],
+    "transport": "Real HTTP requests to the running API on localhost."
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "author": "Ing. Leonardo J. Castiglione",
   "api": {
     "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
@@ -41,15 +41,24 @@
           {
             "type": "diagram",
             "labels": [
-              ["Proyecto", "La configuración ya está incluida."],
-              ["Docker", "Descarga y verifica la base."],
-              ["Navegador", "Permite consultar la API."]
+              [
+                "Proyecto",
+                "La configuración ya está incluida."
+              ],
+              [
+                "Docker",
+                "Descarga y verifica la base."
+              ],
+              [
+                "Navegador",
+                "Permite consultar la API."
+              ]
             ]
           },
           {
             "type": "callout",
             "level": "info",
-            "text": "Docker crea el almacenamiento de la base y prepara sus permisos automáticamente. No se necesitan credenciales de Google, ajustes de usuario de Linux ni carpetas preparadas por la persona que instala el proyecto."
+            "text": "Docker utiliza la carpeta data del proyecto y adapta automáticamente el usuario del servicio a su propietario. No se necesitan credenciales de Google ni ajustes manuales de permisos."
           }
         ]
       },
@@ -59,7 +68,7 @@
         "blocks": [
           {
             "type": "text",
-            "text": "El proyecto incluye el motor Python, la configuración Docker y una API para consultar la base del estudio. El servicio utiliza el puerto <b>8000</b>. Docker conserva la base en un volumen persistente: un espacio que se mantiene al apagar y volver a iniciar el servicio."
+            "text": "El proyecto incluye el motor Python, la configuración Docker y una API para consultar la base del estudio. El servicio utiliza el puerto <b>8000</b>. La base queda en <b>data/study.sqlite</b> dentro de la carpeta del proyecto. Docker utiliza ese mismo archivo y lo conserva al apagar el servicio."
           },
           {
             "type": "code",
@@ -68,35 +77,114 @@
           },
           {
             "type": "text",
-            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. El mensaje <b>Application startup complete</b> indica que la API está preparada."
+            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. La página inicial permite seguir el avance. Las consultas se habilitan cuando muestra <b>La API está lista para usar</b>."
           },
           {
             "type": "code",
             "title": "ABRIR EN EL NAVEGADOR",
-            "text": "http://localhost:8000/docs\nhttp://localhost:8000/health"
+            "text": "http://localhost:8000/\nhttp://localhost:8000/docs\nhttp://localhost:8000/health"
           },
           {
             "type": "text",
-            "text": "<b>/docs</b> presenta las consultas y sus parámetros. <b>/health</b> confirma que el servicio puede abrir la base verificada. <b>/tutorials/api</b> permite descargar este manual."
+            "text": "<b>/</b> muestra el estado y el avance. <b>/docs</b> presenta las consultas y sus parámetros. <b>/health</b> confirma que el servicio puede abrir la base verificada. <b>/tutorials/api</b> permite descargar este manual."
           },
           {
             "type": "callout",
             "level": "info",
-            "text": "localhost identifica al equipo donde se abre el navegador. Si se utiliza un túnel o reenvío de puertos, debe apuntar al puerto 8000 del equipo donde corre esta API. El nombre visible es API Tesis Robustez - MGD."
+            "text": "Ctrl+C termina la lectura de los registros. El comando docker compose down detiene el servicio. La base permanece en data/study.sqlite del proyecto y se reutiliza al volver a arrancar."
+          }
+        ]
+      },
+      {
+        "title": "La página de inicio",
+        "section": "1 · Inicio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "Al abrir <b>http://localhost:8000/</b> se ve la salud del servicio y el progreso de preparación de la base. La captura muestra una descarga real en curso."
           },
           {
-            "type": "code",
-            "title": "EJEMPLO · túnel hacia otro equipo",
-            "text": "ssh -N -L 8000:127.0.0.1:8000 usuario@equipo-remoto"
+            "type": "image",
+            "file": "api-home-downloading-v8.png",
+            "height": 430,
+            "caption": "La página se actualiza automáticamente y permanece disponible durante la descarga."
           },
           {
             "type": "text",
-            "text": "El túnel se mantiene abierto mientras se consulta localhost:8000/docs. Si el puerto local está ocupado, se usa 18000 en la primera posición del reenvío y se abre localhost:18000/docs. El servidor conserva el puerto 8000."
+            "text": "• <b>Servidor en línea:</b> confirma que la API responde. La base todavía puede estar descargándose."
+          },
+          {
+            "type": "text",
+            "text": "• <b>Descarga en curso:</b> muestra el porcentaje y los bytes recibidos respecto del tamaño esperado."
+          },
+          {
+            "type": "text",
+            "text": "• <b>Disponible:</b> aparece al terminar la descarga y la verificación. En ese momento se habilita <b>Abrir las consultas</b>."
+          }
+        ]
+      },
+      {
+        "title": "El estado y el avance de la base",
+        "section": "1 · Inicio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "La dirección <b>http://localhost:8000/</b> abre la página de estado. Está disponible mientras se obtiene la base y se actualiza automáticamente. No es necesario seguir los registros de Docker para saber si la descarga avanza."
+          },
+          {
+            "type": "diagram",
+            "labels": [
+              [
+                "Descarga",
+                "Bytes recibidos y porcentaje."
+              ],
+              [
+                "Verificación",
+                "Tamaño, SHA-256 e integridad."
+              ],
+              [
+                "Disponible",
+                "Se habilitan las consultas."
+              ]
+            ]
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Estado",
+              "Qué significa"
+            ],
+            "widths": [
+              0.27,
+              0.73
+            ],
+            "rows": [
+              [
+                "Descarga en curso",
+                "La barra muestra los bytes recibidos frente al tamaño esperado. Por ejemplo, 50% significa que se recibió la mitad del archivo."
+              ],
+              [
+                "Verificación en curso",
+                "La descarga puede haber terminado, pero todavía se comprueba la base. Las consultas esperan hasta que esa comprobación finaliza."
+              ],
+              [
+                "Disponible",
+                "La base está instalada y verificada. El botón Abrir las consultas permite ir a /docs."
+              ],
+              [
+                "Reintento pendiente",
+                "La descarga o verificación no pudo completarse. El sistema conserva el detalle en los registros y vuelve a intentarlo automáticamente."
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "text": "<b>/status</b> ofrece el mismo estado en JSON. Durante la preparación, <b>/health</b> y las consultas a datos responden <b>503</b>. La página inicial y el manual permanecen disponibles."
           },
           {
             "type": "callout",
             "level": "info",
-            "text": "Ctrl+C termina la lectura de los registros. El comando docker compose down detiene el servicio. La base permanece en el volumen de Docker y se reutiliza al volver a arrancar."
+            "text": "Application startup complete confirma que el servidor web arrancó. Para consultar datos, la página debe indicar Disponible o /health debe responder 200."
           }
         ]
       },
@@ -109,11 +197,11 @@
             "labels": [
               [
                 "Archivo público",
-              "Drive conserva study.sqlite."
+                "Drive conserva study.sqlite."
               ],
               [
                 "Primer arranque",
-              "Descarga y verifica la base."
+                "Descarga y verifica la base."
               ],
               [
                 "SQLite local",
@@ -137,16 +225,16 @@
             ],
             "rows": [
               [
-                "Ya existe /data/study.sqlite en el volumen",
+                "Ya existe data/study.sqlite en el proyecto",
                 "Verifica su identidad y utiliza esa copia."
               ],
               [
-                "Existe /data/study.sqlite.gz en el volumen",
+                "Existe data/study.sqlite.gz en el proyecto",
                 "Verifica el gzip, lo expande y utiliza la base local."
               ],
               [
                 "No existe ninguno de los dos",
-              "Descarga el SQLite público, verifica tamaño, SHA-256 e integridad y lo instala."
+                "Descarga el SQLite público, verifica tamaño, SHA-256 e integridad y lo instala."
               ]
             ],
             "widths": [
@@ -166,7 +254,48 @@
           {
             "type": "callout",
             "level": "info",
-            "text": "La base se guarda en /data/study.sqlite dentro del contenedor. Docker administra ese almacenamiento; no se necesita crear una carpeta de datos en el equipo ni configurar sus permisos."
+            "text": "La base se guarda en <b>data/study.sqlite del proyecto</b>. Esa carpeta está montada como /data dentro del contenedor. El usuario del servicio se adapta automáticamente al directorio. Git y Docker excluyen la base y los archivos provisionales."
+          }
+        ]
+      },
+      {
+        "title": "Dónde queda la base y cómo volver a descargarla",
+        "section": "2 · Datos",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "La descarga queda en <b>data/study.sqlite</b>, junto a data/manifest.json y data/README.md. Docker monta la carpeta del proyecto como /data: ambos caminos corresponden al mismo archivo. La base y los provisionales no se suben a GitHub ni se incorporan a la imagen Docker."
+          },
+          {
+            "type": "code",
+            "title": "CARPETA DEL PROYECTO",
+            "text": "api-tesis-mgd/\n  data/\n    manifest.json\n    README.md\n    study.sqlite   (descarga automática; fuera de Git)"
+          },
+          {
+            "type": "diagram",
+            "labels": [
+              [
+                "Proyecto",
+                "data/study.sqlite"
+              ],
+              [
+                "Docker",
+                "/data/study.sqlite"
+              ],
+              [
+                "API",
+                "Consulta la misma base."
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Para probar otra descarga, se elimina <b>solo data/study.sqlite</b> desde el equipo. El servicio detecta la ausencia, suspende las consultas y vuelve a obtener la base. No se necesita reiniciar el contenedor. La página inicial muestra la descarga y la verificación nuevas."
+          },
+          {
+            "type": "callout",
+            "level": "warning",
+            "text": "Se conservan data/manifest.json y data/README.md. Si existe un gzip local válido, el sistema utiliza esa copia en lugar de descargar el archivo de Drive."
           }
         ]
       },
@@ -593,11 +722,11 @@
           },
           {
             "type": "text",
-            "text": "API v2 · Manual v7 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+            "text": "API v2.1 · Manual v8 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
           }
         ]
       }
     ],
-    "version": 7
+    "version": 8
   }
 }

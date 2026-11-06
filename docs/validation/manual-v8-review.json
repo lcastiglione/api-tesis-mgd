@@ -1,0 +1,20 @@
+{
+  "manual_version": 8,
+  "pages": 18,
+  "local_pc_installation_only": true,
+  "homepage_screenshot_included": true,
+  "host_data_directory_documented": true,
+  "no_configuration_copy_or_edits": true,
+  "automatic_recovery_documented": true,
+  "dates_omitted": true,
+  "safe_area_issues": [],
+  "sha256": "804b8a7c2c0465addd0bc1043a84f5f9eadebffac98ec721795040a1aac24b25",
+  "matches_output": true,
+  "visual_review_pages": [
+    3,
+    4,
+    5,
+    6,
+    7
+  ]
+}

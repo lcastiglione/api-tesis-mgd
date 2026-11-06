@@ -1,0 +1,29 @@
+{
+  "api_version": "2.1.0",
+  "storage": "Bind mount ./data:/data",
+  "public_download_without_google_credentials": true,
+  "first_download": {
+    "bytes": 1923264512,
+    "sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
+    "quick_check": "ok",
+    "owner_matches_host_user": true
+  },
+  "after_deletion": {
+    "bytes": 1923264512,
+    "sha256": "42d97a6eca26aa7640619f6349bbc321e5398123dedf7317874fa68169329f7a",
+    "quick_check": "ok",
+    "owner_matches_host_user": true
+  },
+  "observed_phases_after_deletion": [
+    "pending",
+    "downloading",
+    "verifying",
+    "ready"
+  ],
+  "home_and_status_available_without_database": true,
+  "queries_return_503_without_database": true,
+  "ready_health_status": 200,
+  "recovery_without_container_restart": true,
+  "database_path_in_project": "data/study.sqlite",
+  "original_database_preserved": true
+}
