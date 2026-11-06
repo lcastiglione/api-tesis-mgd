@@ -1,15 +1,15 @@
-# Validación del motor y la API 2.1.0
+# Validación del motor y la API 2.2.0
 
 Comprobaciones realizadas en Linux con Docker.
 
 | Comprobación | Resultado y evidencia |
 |---|---|
 | Motor, API y transporte | 16 pruebas aprobadas; `api-tests-github.txt`. |
-| Página inicial | Escritorio y móvil, descarga real y estado disponible; `status-page-review.json`. |
+| Página inicial | Panel oscuro sin desplazamiento en 84 combinaciones de tamaño y estado; salud real y doce accesos; `status-page-review.json`. |
 | Reposición de SQLite | Dos descargas íntegras, sin reiniciar; `database-recovery.json`. |
 | Contrato por parámetros | Rutas y esquemas vigentes; `openapi.json`. |
 | Ejemplos HTTP | Cuerpos originales conservados; `../api-examples.json`. |
-| Manual API v8 | Página inicial, captura, progreso y almacenamiento local; `manual-v8-review.json`. |
+| Manual API v9 | Captura del panel oscuro e indicadores de salud; `manual-v9-review.json`. |
 | Descarga pública | `.env` incluido, volumen vacío, descarga completa y consultas HTTP verificados; `public-download.json`. |
 
 Las pruebas de descarga usan bases mínimas y comprueban SQLite directo, gzip,
@@ -34,3 +34,12 @@ original de la base; las verificaciones permanecen intactas.
 El manual usa una ilustración de portada, una captura real de la página inicial
 y esquemas vectoriales. No incluye
 fechas de edición y conserva el nombre del autor en los pies de página.
+
+## Reproducir las pruebas
+
+Con la API iniciada y su base preparada:
+
+```bash
+docker build --target test -t api-tesis-mgd:test .
+docker run --rm --volumes-from "$(docker compose ps -q api):ro" api-tesis-mgd:test
+```

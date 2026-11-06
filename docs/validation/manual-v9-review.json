@@ -1,0 +1,17 @@
+{
+  "manual_version": 9,
+  "pages": 18,
+  "dark_dashboard_screenshot": true,
+  "local_pc_installation_only": true,
+  "health_indicator_documented": true,
+  "section_links_documented": true,
+  "dates_omitted": true,
+  "safe_area_issues": [],
+  "sha256": "453c197009f0e1da623eb8912831346d313d34ae5f3524dddeb4be510a5e6933",
+  "matches_output": true,
+  "visual_review_pages": [
+    3,
+    4,
+    5
+  ]
+}

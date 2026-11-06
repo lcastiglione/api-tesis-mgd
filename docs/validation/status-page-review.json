@@ -1,70 +1,129 @@
 {
-  "downloading": {
-    "state": {
-      "api_version": "2.1.0",
-      "phase": "downloading",
-      "message": "Se descarga la base pública de Google Drive. Esta página muestra el avance real.",
-      "ready": false,
-      "download": {
-        "received_bytes": 120061952,
-        "total_bytes": 1923264512,
-        "percent": 6.2
-      },
-      "database": {
-        "installed": false,
-        "bytes": 1923264512,
-        "version": 2,
-        "storage_revision": 3,
-        "read_only": true
-      },
-      "retry_in_seconds": null
+  "api_version": "2.2.0",
+  "color_scheme": "dark",
+  "health_endpoint_polled": "/health",
+  "health_shown_as_indicator": true,
+  "health_navigation_link": false,
+  "section_links": [
+    {
+      "text": "Consultas↗",
+      "url": "/docs"
     },
-    "desktop": {
-      "width": 1160,
-      "body": 1160,
-      "title": "API Tesis Robustez - MGD",
-      "heading": "Descargando la base de datos",
-      "button": "true"
+    {
+      "text": "Estudio↗",
+      "url": "/api/v1/study"
     },
-    "mobile": {
-      "width": 390,
-      "body": 390
+    {
+      "text": "Instrumentos↗",
+      "url": "/api/v1/instruments"
     },
-    "page_errors": [],
-    "transport": "Real HTTP requests to the running API on localhost."
-  },
-  "ready": {
-    "state": {
-      "api_version": "2.1.0",
-      "phase": "ready",
-      "message": "La base está descargada y verificada. La API ya admite consultas.",
-      "ready": true,
-      "download": {
-        "received_bytes": 1923264512,
-        "total_bytes": 1923264512,
-        "percent": 100
-      },
-      "database": {
-        "installed": true,
-        "bytes": 1923264512,
-        "version": 2,
-        "storage_revision": 3,
-        "read_only": true
-      },
-      "retry_in_seconds": null
+    {
+      "text": "Configuraciones↗",
+      "url": "/api/v1/configurations"
     },
-    "desktop": {
-      "width": 1160,
-      "body": 1160,
-      "title": "API Tesis Robustez - MGD",
-      "heading": "La API está lista para usar",
-      "button": "false"
+    {
+      "text": "Recuentos↗",
+      "url": "/api/v1/configuration-counts"
     },
-    "mobile": {
-      "width": 390,
-      "body": 390
+    {
+      "text": "Ejecuciones↗",
+      "url": "/api/v1/executions"
     },
-    "page_errors": [],
-    "transport": "Real HTTP requests to the running API on localhost."
+    {
+      "text": "Resultados↗",
+      "url": "/docs#/Detalle"
+    },
+    {
+      "text": "Motor↗",
+      "url": "/docs#/Comprobaci%C3%B3n"
+    },
+    {
+      "text": "Referencia↗",
+      "url": "/redoc"
+    },
+    {
+      "text": "OpenAPI↗",
+      "url": "/openapi.json"
+    },
+    {
+      "text": "Estado JSON↗",
+      "url": "/status"
+    },
+    {
+      "text": "Manual↓",
+      "url": "/tutorials/api"
+    }
+  ],
+  "links_checked_over_http": true,
+  "viewport_cases": 84,
+  "viewports": [
+    [
+      320,
+      320
+    ],
+    [
+      320,
+      480
+    ],
+    [
+      320,
+      568
+    ],
+    [
+      360,
+      640
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      740,
+      360
+    ],
+    [
+      768,
+      1024
+    ],
+    [
+      844,
+      390
+    ],
+    [
+      1024,
+      600
+    ],
+    [
+      1280,
+      720
+    ],
+    [
+      1366,
+      768
+    ],
+    [
+      1920,
+      1080
+    ]
+  ],
+  "states": [
+    "downloading",
+    "error",
+    "extracting",
+    "offline",
+    "pending",
+    "ready",
+    "verifying"
+  ],
+  "page_and_text_fit_viewport": true,
+  "no_scrollbars": true,
+  "health_failure_checked": true,
+  "page_errors": [],
+  "real_health": {
+    "status": "ok",
+    "api_version": "2.2.0",
+    "database_version": 2,
+    "storage_revision": 3,
+    "read_only": true
   }
 }

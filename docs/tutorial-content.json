@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "author": "Ing. Leonardo J. Castiglione",
   "api": {
     "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
@@ -77,16 +77,16 @@
           },
           {
             "type": "text",
-            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. La página inicial permite seguir el avance. Las consultas se habilitan cuando muestra <b>La API está lista para usar</b>."
+            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. La página inicial permite seguir el avance. Las consultas se habilitan cuando muestra <b>Base lista para consultar</b>."
           },
           {
             "type": "code",
             "title": "ABRIR EN EL NAVEGADOR",
-            "text": "http://localhost:8000/\nhttp://localhost:8000/docs\nhttp://localhost:8000/health"
+            "text": "http://localhost:8000/"
           },
           {
             "type": "text",
-            "text": "<b>/</b> muestra el estado y el avance. <b>/docs</b> presenta las consultas y sus parámetros. <b>/health</b> confirma que el servicio puede abrir la base verificada. <b>/tutorials/api</b> permite descargar este manual."
+            "text": "La página inicial reúne la salud de la API, el progreso de la base y los accesos a las demás secciones. <b>Consultas</b> abre las operaciones con sus parámetros; <b>Manual</b> descarga esta guía."
           },
           {
             "type": "callout",
@@ -101,25 +101,29 @@
         "blocks": [
           {
             "type": "text",
-            "text": "Al abrir <b>http://localhost:8000/</b> se ve la salud del servicio y el progreso de preparación de la base. La captura muestra una descarga real en curso."
+            "text": "La dirección <b>http://localhost:8000/</b> presenta un panel azul oscuro que se adapta a la pantalla. Reúne la salud de la API, el progreso de la base y los accesos a las secciones."
           },
           {
             "type": "image",
-            "file": "api-home-downloading-v8.png",
-            "height": 430,
-            "caption": "La página se actualiza automáticamente y permanece disponible durante la descarga."
+            "file": "api-home-ready-v9.png",
+            "height": 345,
+            "caption": "Captura del sistema con la base descargada, verificada y disponible para consultar."
           },
           {
             "type": "text",
-            "text": "• <b>Servidor en línea:</b> confirma que la API responde. La base todavía puede estar descargándose."
+            "text": "• <b>Servidor:</b> indica si se puede establecer conexión con el servicio."
           },
           {
             "type": "text",
-            "text": "• <b>Descarga en curso:</b> muestra el porcentaje y los bytes recibidos respecto del tamaño esperado."
+            "text": "• <b>Salud API:</b> muestra Operativa cuando la consulta de salud responde correctamente. Durante la preparación muestra En espera; si falla una comprobación, muestra Revisar."
           },
           {
             "type": "text",
-            "text": "• <b>Disponible:</b> aparece al terminar la descarga y la verificación. En ese momento se habilita <b>Abrir las consultas</b>."
+            "text": "• <b>Base SQLite y gráfico circular:</b> muestran la etapa y los bytes recibidos. El porcentaje corresponde a la descarga; la verificación se informa por separado."
+          },
+          {
+            "type": "text",
+            "text": "• <b>Accesos:</b> permiten abrir consultas, datos del estudio, resultados, motor, referencia, OpenAPI, estado JSON y manual. Los accesos directos a datos se habilitan cuando la API está operativa."
           }
         ]
       },
@@ -129,7 +133,7 @@
         "blocks": [
           {
             "type": "text",
-            "text": "La dirección <b>http://localhost:8000/</b> abre la página de estado. Está disponible mientras se obtiene la base y se actualiza automáticamente. No es necesario seguir los registros de Docker para saber si la descarga avanza."
+            "text": "La página inicial permite seguir el avance y se actualiza automáticamente. El indicador de salud permanece en <b>En espera</b> mientras la base se prepara. El servicio distingue estas etapas:"
           },
           {
             "type": "diagram",
@@ -160,19 +164,19 @@
             ],
             "rows": [
               [
-                "Descarga en curso",
-                "La barra muestra los bytes recibidos frente al tamaño esperado. Por ejemplo, 50% significa que se recibió la mitad del archivo."
+                "Descargando",
+                "El gráfico circular muestra los bytes recibidos frente al tamaño esperado. Por ejemplo, 50% significa que se recibió la mitad del archivo."
               ],
               [
-                "Verificación en curso",
+                "Verificando",
                 "La descarga puede haber terminado, pero todavía se comprueba la base. Las consultas esperan hasta que esa comprobación finaliza."
               ],
               [
-                "Disponible",
-                "La base está instalada y verificada. El botón Abrir las consultas permite ir a /docs."
+                "Lista / Operativa",
+                "La base está instalada y verificada. La salud de la API confirma que las consultas pueden utilizarla."
               ],
               [
-                "Reintento pendiente",
+                "Pendiente",
                 "La descarga o verificación no pudo completarse. El sistema conserva el detalle en los registros y vuelve a intentarlo automáticamente."
               ]
             ]
@@ -184,7 +188,7 @@
           {
             "type": "callout",
             "level": "info",
-            "text": "Application startup complete confirma que el servidor web arrancó. Para consultar datos, la página debe indicar Disponible o /health debe responder 200."
+            "text": "Application startup complete confirma que el servidor web arrancó. Para consultar datos, la tarjeta Salud API debe indicar Operativa."
           }
         ]
       },
@@ -722,11 +726,11 @@
           },
           {
             "type": "text",
-            "text": "API v2.1 · Manual v8 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+            "text": "API v2.2 · Manual v9 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
           }
         ]
       }
     ],
-    "version": 8
+    "version": 9
   }
 }
