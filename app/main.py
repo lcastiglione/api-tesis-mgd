@@ -8,14 +8,15 @@ from threading import Lock
 from typing import Annotated, Iterator, Literal
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 
 from calculator.database import Database
 from calculator.runner import run_case
-from .bootstrap import ensure_database
+from .preparation import DatabasePreparation
 
 ROOT = Path(__file__).resolve().parents[1]
 API_TITLE = 'API Tesis Robustez - MGD'
@@ -33,6 +34,8 @@ TABLES = ('documents','market_data','configurations','executions','daily_results
 @contextmanager
 def open_database() -> Iterator[Database]:
     """Crea y cierra una conexión de lectura en el mismo hilo de la consulta."""
+    if not DATABASE_PATH.is_file():
+        raise HTTPException(503,'La base se está preparando; consultar el estado en /.',headers={'Retry-After':'2'})
     database = Database(DATABASE_PATH,readonly=True)
     try:
         yield database
@@ -42,9 +45,14 @@ def open_database() -> Iterator[Database]:
 
 @asynccontextmanager
 async def lifespan(application: FastAPI):
-    """Verifica o descarga la base antes de anunciar que la API está preparada."""
-    ensure_database(DATABASE_PATH,url=os.getenv('DATABASE_URL',''))
-    yield
+    """Abre la página de estado mientras se descarga y verifica la base."""
+    preparation = DatabasePreparation(DATABASE_PATH,url=os.getenv('DATABASE_URL',''))
+    application.state.preparation = preparation
+    preparation.start()
+    try:
+        yield
+    finally:
+        preparation.close()
 
 
 app = FastAPI(title=API_TITLE,version=VERSION,lifespan=lifespan,docs_url=None,
@@ -53,6 +61,18 @@ app = FastAPI(title=API_TITLE,version=VERSION,lifespan=lifespan,docs_url=None,
              '⚠️ **Advertencia:** la API recibe únicamente parámetros validados. '
              'Las consultas se definen en el servidor y los valores se envían por separado para prevenir inyecciones SQL. '
              'No se admite código SQL del cliente.')
+app.mount('/assets',StaticFiles(directory=ROOT/'app/static'),name='assets')
+
+
+def require_ready(request: Request) -> None:
+    """Responde 503 mientras la base falta, se descarga o se verifica."""
+    status = request.app.state.preparation.snapshot()
+    if not status['ready']:
+        raise HTTPException(503,detail={'message':status['message'],'phase':status['phase'],
+                                       'status_url':'/status'},headers={'Retry-After':'2'})
+
+
+api = APIRouter(dependencies=[Depends(require_ready)])
 
 
 class Pagination(BaseModel):
@@ -98,8 +118,15 @@ class VerificationRequest(BaseModel):
 
 
 @app.get('/',include_in_schema=False)
-def home() -> RedirectResponse:
-    return RedirectResponse('/docs')
+def home() -> FileResponse:
+    return FileResponse(ROOT/'app/static/index.html',headers={'Cache-Control':'no-store'})
+
+
+@app.get('/status',tags=['Estado'])
+def status(request: Request) -> JSONResponse:
+    """Informa avance real y preparación, incluso mientras la base no existe."""
+    return JSONResponse({'api_version':VERSION,**request.app.state.preparation.snapshot()},
+                        headers={'Cache-Control':'no-store'})
 
 
 @app.get('/docs',include_in_schema=False,response_class=HTMLResponse)
@@ -108,7 +135,7 @@ def documentation() -> HTMLResponse:
     return get_swagger_ui_html(openapi_url=app.openapi_url,title=API_TITLE)
 
 
-@app.get('/health',tags=['Estado'])
+@app.get('/health',tags=['Estado'],dependencies=[Depends(require_ready)])
 def health() -> dict:
     """Indica preparación real: consulta un registro de la base verificada."""
     with open_database() as database:
@@ -117,7 +144,7 @@ def health() -> dict:
             'storage_revision':current['storage_revision'],'read_only':True}
 
 
-@app.get('/api/v1/study',tags=['Estudio'])
+@api.get('/api/v1/study',tags=['Estudio'])
 def study() -> dict:
     with open_database() as database:
         counts = {name:database.connection.execute('SELECT count(*) FROM '+name).fetchone()[0]
@@ -128,7 +155,7 @@ def study() -> dict:
                 'scope':'Campaña histórica; sin agregar casos ni modificar los resultados.'}
 
 
-@app.get('/api/v1/instruments',tags=['Estudio'])
+@api.get('/api/v1/instruments',tags=['Estudio'])
 def instruments() -> dict:
     with open_database() as database:
         return {'items':[dict(row) for row in database.connection.execute('''SELECT c.instrument_id,
@@ -137,7 +164,7 @@ def instruments() -> dict:
             GROUP BY c.instrument_id ORDER BY c.instrument_id''')]}
 
 
-@app.get('/api/v1/configuration-counts',tags=['Estudio'])
+@api.get('/api/v1/configuration-counts',tags=['Estudio'])
 def configuration_counts(filters: Annotated[CountFilters,Query()]) -> dict:
     """Cuenta por familia mediante una consulta definida íntegramente en el servidor."""
     with open_database() as database:
@@ -147,7 +174,7 @@ def configuration_counts(filters: Annotated[CountFilters,Query()]) -> dict:
         return {'instrument':filters.instrument,'items':[dict(row) for row in rows]}
 
 
-@app.get('/api/v1/configurations',tags=['Estudio'])
+@api.get('/api/v1/configurations',tags=['Estudio'])
 def configurations(filters: Annotated[ConfigurationFilters,Query()]) -> dict:
     instrument,family,limit,offset=filters.instrument,filters.family,filters.limit,filters.offset
     with open_database() as database:
@@ -160,7 +187,7 @@ def configurations(filters: Annotated[ConfigurationFilters,Query()]) -> dict:
         return {'items':[dict(row) for row in rows[:limit]],'limit':limit,'offset':offset,'has_more':len(rows)>limit}
 
 
-@app.get('/api/v1/executions',tags=['Estudio'])
+@api.get('/api/v1/executions',tags=['Estudio'])
 def executions(filters: Annotated[ExecutionFilters,Query()]) -> dict:
     instrument,configuration,length=filters.instrument,filters.configuration,filters.length
     limit,offset=filters.limit,filters.offset
@@ -182,7 +209,7 @@ def require_execution(database: Database, execution_id: str) -> None:
         raise HTTPException(404,'Ejecución no encontrada; consultar /api/v1/executions.')
 
 
-@app.get('/api/v1/executions/{execution_id}/indicators',tags=['Detalle'])
+@api.get('/api/v1/executions/{execution_id}/indicators',tags=['Detalle'])
 def indicators(execution_id: str,filters: Annotated[IndicatorFilters,Query()]) -> dict:
     segment,metric,limit,offset=filters.segment,filters.metric,filters.limit,filters.offset
     with open_database() as database:
@@ -197,7 +224,7 @@ def indicators(execution_id: str,filters: Annotated[IndicatorFilters,Query()]) -
                 'units':'fraction = fracción (0.10 = 10%); exact_value conserva el texto original; consultar status antes de interpretar.'}
 
 
-@app.get('/api/v1/executions/{execution_id}/daily',tags=['Detalle'])
+@api.get('/api/v1/executions/{execution_id}/daily',tags=['Detalle'])
 def daily(execution_id: str,filters: Annotated[DailyFilters,Query()]) -> dict:
     segment,alternative,window_id=filters.segment,filters.alternative,filters.window_id
     limit,offset=filters.limit,filters.offset
@@ -212,7 +239,7 @@ def daily(execution_id: str,filters: Annotated[DailyFilters,Query()]) -> dict:
                 'scope':'Observaciones recuperadas de bloques comprimidos; se conservan decimales, vacíos y estados.'}
 
 
-@app.get('/api/v1/executions/{execution_id}/operations',tags=['Detalle'])
+@api.get('/api/v1/executions/{execution_id}/operations',tags=['Detalle'])
 def operations(execution_id: str,filters: Annotated[Pagination,Query()]) -> dict:
     limit,offset=filters.limit,filters.offset
     with open_database() as database:
@@ -221,7 +248,7 @@ def operations(execution_id: str,filters: Annotated[Pagination,Query()]) -> dict
         return {'items':rows[:limit],'limit':limit,'offset':offset,'has_more':len(rows)>limit}
 
 
-@app.post('/api/v1/verify-case',tags=['Comprobación'])
+@api.post('/api/v1/verify-case',tags=['Comprobación'])
 def verify_case(request: VerificationRequest) -> dict:
     """Recalcula un caso registrado en memoria; no crea una ejecución persistida."""
     if not SIMULATION_LOCK.acquire(blocking=False):
@@ -244,3 +271,6 @@ def tutorial() -> FileResponse:
     catalog = json.loads((ROOT/'docs/tutorial-content.json').read_text())
     version = int(catalog['api'].get('version',catalog['version']))
     return FileResponse(ROOT/'docs'/f'api-tutorial-v{version}.pdf',media_type='application/pdf')
+
+
+app.include_router(api)

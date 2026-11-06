@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123e49">
+  <title>API Tesis Robustez - MGD</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/status.css">
+  <script defer src="/assets/status.js"></script>
+</head>
+<body>
+  <div class="frame">
+    <header class="masthead">
+      <a class="brand" href="/" aria-label="Inicio"><img src="/assets/mark.svg" alt="" width="42" height="42"><span>TESIS MGD<span class="brand-sub">Datos y reproducibilidad</span></span></a>
+      <span class="server"><span class="dot" id="server-dot"></span><span id="server-label">Conectando con el servidor</span></span>
+    </header>
+    <main>
+      <div class="intro"><p class="eyebrow">ESTADO DEL SISTEMA</p><h1>API Tesis Robustez <span>MGD</span></h1><p class="lead">Evaluación de la robustez de estrategias de inversión para trading algorítmico.</p></div>
+      <section class="status-card" aria-labelledby="state-title" aria-busy="true" id="status-card">
+        <div class="card-head"><span class="badge" id="state-badge">Preparando</span><span class="version" id="version">API</span></div>
+        <div class="state-heading"><div class="state-icon" id="state-icon" aria-hidden="true">↓</div><div><h2 id="state-title">Preparando la base de datos</h2><p id="state-message" role="status" aria-live="polite">En un momento se mostrará el estado de la descarga.</p></div></div>
+        <div class="transfer" id="transfer"><div class="progress-heading"><span id="progress-label">Esperando información</span><strong id="percent">—</strong></div><progress id="progress" max="100" aria-label="Avance de descarga"></progress><div class="transfer-caption"><span id="bytes">La primera descarga puede demorar.</span><span id="transfer-note">Actualización automática</span></div></div>
+        <ol class="steps" aria-label="Preparación de la base"><li id="step-connect"><span>1</span>Conexión</li><li id="step-download"><span>2</span>Descarga</li><li id="step-verify"><span>3</span>Verificación</li><li id="step-ready"><span>4</span>Lista para usar</li></ol>
+        <div class="notice" id="notice"><span class="info-icon" aria-hidden="true">i</span><p id="notice-text">La página permanece disponible durante la descarga. Las consultas se habilitan cuando la base está verificada.</p></div>
+        <div class="actions"><a class="button primary" id="docs-link" href="/docs" aria-disabled="true" tabindex="-1">Abrir las consultas <span aria-hidden="true">↗</span></a><a class="button secondary" href="/tutorials/api">Descargar el manual <span aria-hidden="true">↓</span></a></div>
+      </section>
+      <section class="facts" aria-label="Información del sistema"><article><p class="eyebrow">BASE DE DATOS</p><h3 id="database-label">Preparación en curso</h3><p id="database-detail">La copia se guarda en data/study.sqlite del proyecto.</p></article><article><p class="eyebrow">CONSULTAS</p><h3>Parámetros simples</h3><p>Los filtros permiten explorar instrumentos, ejecuciones e indicadores.</p></article><article><p class="eyebrow">INTEGRIDAD</p><h3>Datos de solo lectura</h3><p>El sistema verifica tamaño, SHA-256 e integridad antes de habilitar las consultas.</p></article></section>
+      <noscript><p class="notice">Para actualizar el avance automáticamente se necesita JavaScript. El estado también se puede consultar en <a href="/status">/status</a>.</p></noscript>
+    </main>
+    <footer><span>Ing. Leonardo J. Castiglione</span><span>API Tesis Robustez - MGD</span></footer>
+  </div>
+</body>
+</html>

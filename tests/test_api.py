@@ -21,6 +21,8 @@ class ApiTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.client = TestClient(main.app)
         cls.client.__enter__()
+        if not main.app.state.preparation.ready_event.wait(timeout=120):
+            raise AssertionError('La base real no quedó preparada: '+str(main.app.state.preparation.snapshot()))
         cls.execution = cls.client.get('/api/v1/executions',params={
             'instrument':'SPY','configuration':'sma200','length':1}).json()['items'][0]['execution_id']
 
@@ -116,7 +118,7 @@ class ApiTests(unittest.TestCase):
         version=catalog['api']['version']
         self.assertEqual(response.content,(main.ROOT/'docs'/f'api-tutorial-v{version}.pdf').read_bytes())
         contract=self.client.get('/openapi.json').json()
-        self.assertEqual(contract['info']['version'],'2.0.0')
+        self.assertEqual(contract['info']['version'],'2.1.0')
         self.assertNotIn('/api/v1/query',contract['paths'])
         self.assertNotIn('/api/v1/schema',contract['paths'])
         self.assertIn('inyecciones SQL',contract['info']['description'])
@@ -140,7 +142,7 @@ class DownloadTests(unittest.TestCase):
             manifest_path=root/'manifest.json'
             manifest_path.write_text(json.dumps(manifest))
             destination=root/'data/study.sqlite'
-            def fake_download(url: str, target: Path, max_bytes: int) -> None:
+            def fake_download(url: str, target: Path, max_bytes: int, **options) -> None:
                 self.assertEqual(max_bytes,len(raw))
                 target.write_bytes(raw)
             with patch('app.bootstrap.download_archive',side_effect=fake_download) as download:
@@ -150,7 +152,7 @@ class DownloadTests(unittest.TestCase):
                 self.assertEqual(download.call_count,1)
             destination.unlink()
             invalid=raw[:-1]+bytes([raw[-1]^1])
-            with patch('app.bootstrap.download_archive',side_effect=lambda url,target,max_bytes:target.write_bytes(invalid)):
+            with patch('app.bootstrap.download_archive',side_effect=lambda url,target,max_bytes,**options:target.write_bytes(invalid)):
                 with self.assertRaisesRegex(ValueError,'SHA-256'):
                     ensure_database(destination,manifest_path)
             self.assertFalse(destination.exists())
@@ -173,7 +175,7 @@ class DownloadTests(unittest.TestCase):
             manifest_path = root/'manifest.json'
             manifest_path.write_text(json.dumps(manifest))
             destination = root/'data/study.sqlite'
-            def fake_download(url: str, target: Path, max_bytes: int) -> None:
+            def fake_download(url: str, target: Path, max_bytes: int, **options) -> None:
                 target.write_bytes(packed)
             with patch('app.bootstrap.download_archive',side_effect=fake_download) as download:
                 ensure_database(destination,manifest_path)
@@ -182,7 +184,7 @@ class DownloadTests(unittest.TestCase):
                 self.assertEqual(download.call_count,1)
                 self.assertEqual(download.call_args.args[0],manifest['download_url'])
             destination.unlink()
-            with patch('app.bootstrap.download_archive',side_effect=lambda url,target,max_bytes:target.write_bytes(b'<html>Drive error</html>')):
+            with patch('app.bootstrap.download_archive',side_effect=lambda url,target,max_bytes,**options:target.write_bytes(b'<html>Drive error</html>')):
                 with self.assertRaises(ValueError):
                     ensure_database(destination,manifest_path,'https://drive.google.com/file/d/example/view')
             self.assertFalse(destination.exists())

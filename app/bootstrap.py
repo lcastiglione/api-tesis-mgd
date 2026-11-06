@@ -5,6 +5,8 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+from threading import Event
+from typing import Callable
 from urllib.parse import urlparse
 from urllib.request import urlopen
 
@@ -24,32 +26,50 @@ def verify_database(path: Path, manifest: dict) -> None:
             raise ValueError('SQLite no superó quick_check.')
 
 
-def download_archive(url: str, destination: Path, max_bytes: int) -> None:
+def download_archive(url: str, destination: Path, max_bytes: int, *,
+                     progress: Callable[[int, int], None] | None = None,
+                     cancel: Event | None = None) -> None:
     """Descarga por HTTPS; Drive utiliza gdown sin cookies ni credenciales."""
     parsed = urlparse(url)
     if parsed.scheme != 'https' or not parsed.hostname:
         raise ValueError('DATABASE_URL debe ser un enlace HTTPS público al archivo.')
+    def received(total: int, remote_total: int | None = None) -> None:
+        if cancel is not None and cancel.is_set():
+            raise InterruptedError('Descarga detenida al apagar el servicio.')
+        if total > max_bytes:
+            raise ValueError('La descarga supera el tamaño declarado.')
+        if progress is not None:
+            progress(total, max_bytes)
     if parsed.hostname in {'drive.google.com','docs.google.com'}:
         import gdown
-        gdown.download(url=url,output=str(destination),use_cookies=False,quiet=False,timeout=60,retries=2)
+        gdown.download(url=url,output=str(destination),use_cookies=False,quiet=False,
+                       timeout=60,retries=2,resume=True,progress=received,cancel=cancel)
     else:
         with urlopen(url,timeout=60) as response, destination.open('wb') as output:
             total = 0
             for block in iter(lambda: response.read(1024*1024),b''):
                 total += len(block)
-                if total > max_bytes:
-                    raise ValueError('La descarga supera el tamaño declarado.')
+                received(total)
                 output.write(block)
     if not destination.is_file() or destination.stat().st_size > max_bytes:
         raise ValueError('La descarga no corresponde al archivo esperado.')
 
 
-def ensure_database(path: Path, manifest_path: Path = ROOT/'data/manifest.json', url: str = '') -> Path:
+def ensure_database(path: Path, manifest_path: Path = ROOT/'data/manifest.json', url: str = '', *,
+                    report: Callable[[str, str], None] | None = None,
+                    progress: Callable[[int, int], None] | None = None,
+                    cancel: Event | None = None) -> Path:
     """Usa la copia local o instala una descarga validada mediante reemplazo atómico."""
     manifest = json.loads(manifest_path.read_text())
     url = url or manifest.get('download_url') or ''
+    def stage(name: str, message: str) -> None:
+        if report is not None:
+            report(name, message)
+        if cancel is not None and cancel.is_set():
+            raise InterruptedError('Preparación detenida al apagar el servicio.')
     path.parent.mkdir(parents=True,exist_ok=True)
     if path.exists():
+        stage('verifying','Se comprueban el tamaño, la huella y la integridad de la base guardada.')
         verify_database(path,manifest)
         return path
     download_format = manifest.get('download_format','gzip')
@@ -65,8 +85,10 @@ def ensure_database(path: Path, manifest_path: Path = ROOT/'data/manifest.json',
                 raise FileNotFoundError('Falta data/study.sqlite. Colocar study.sqlite.gz en data/ o configurar DATABASE_URL; ver README.md.')
             print('Descargando la base pública; el primer arranque puede demorar.',flush=True)
             expected = manifest['database'] if download_format == 'sqlite' else manifest['archive']
-            download_archive(url,download,expected['bytes'])
+            stage('downloading','Se descarga la base pública de Google Drive. Esta página muestra el avance real.')
+            download_archive(url,download,expected['bytes'],progress=progress,cancel=cancel)
             if download_format == 'sqlite':
+                stage('verifying','La descarga terminó. Se verifican el tamaño, SHA-256 y la integridad de SQLite.')
                 verify_database(download,manifest)
                 download.replace(path)
                 print('Base verificada. La API consultará esta copia local en modo de lectura.',flush=True)
@@ -75,8 +97,10 @@ def ensure_database(path: Path, manifest_path: Path = ROOT/'data/manifest.json',
             downloaded = True
         else:
             archive_input = archive
+        stage('verifying','Se comprueban el tamaño y la huella del archivo comprimido.')
         if archive_input.stat().st_size != manifest['archive']['bytes'] or sha256_file(archive_input) != manifest['archive']['sha256']:
             raise ValueError('La descarga no coincide con la versión esperada (tamaño o SHA-256).')
+        stage('extracting','Se descomprime la base antes de verificar su integridad.')
         with gzip.open(archive_input,'rb') as source, candidate.open('wb') as output:
             total = 0
             for block in iter(lambda: source.read(1024*1024),b''):
@@ -84,6 +108,7 @@ def ensure_database(path: Path, manifest_path: Path = ROOT/'data/manifest.json',
                 if total > manifest['database']['bytes']:
                     raise ValueError('El archivo expandido supera el tamaño esperado.')
                 output.write(block)
+        stage('verifying','Se comprueban el tamaño, SHA-256 y la integridad de la base descomprimida.')
         verify_database(candidate,manifest)
         candidate.replace(path)
         if downloaded:
