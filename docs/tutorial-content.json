@@ -1,0 +1,605 @@
+{
+  "version": 6,
+  "author": "Ing. Leonardo J. Castiglione",
+  "api": {
+    "title": "Manual de uso de la API - Tesis MGD Evaluación de la robustez de estrategias de inversión para trading algorítmico",
+    "subtitle": "",
+    "pages": [
+      {
+        "title": "Guía de la API",
+        "section": "Presentación",
+        "blocks": [
+          {
+            "type": "image",
+            "file": "cover-api-v2.png",
+            "height": 350,
+            "framed": false
+          }
+        ]
+      },
+      {
+        "title": "Descargar el proyecto desde GitHub",
+        "section": "1 · Inicio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "El repositorio público contiene el código de la API, el motor Python y este manual. La base se descarga por separado desde Drive durante el primer arranque. No se necesita iniciar sesión en GitHub ni configurar una cuenta de Google."
+          },
+          {
+            "type": "text",
+            "text": "Se necesitan <b>Git</b>, <b>Docker con Compose</b> y al menos <b>6GiB</b> libres, además del espacio de Docker. La clonación crea la carpeta del proyecto:"
+          },
+          {
+            "type": "code",
+            "title": "TERMINAL · descargar el código",
+            "text": "git clone https://github.com/lcastiglione/api-tesis-mgd.git\ncd api-tesis-mgd"
+          },
+          {
+            "type": "text",
+            "text": "El archivo <b>.env.example</b> ya contiene el enlace público de la base y el puerto 8000. Se copia como <b>.env</b> para conservar la configuración local:"
+          },
+          {
+            "type": "code",
+            "title": "LINUX O MACOS",
+            "text": "cp .env.example .env"
+          },
+          {
+            "type": "code",
+            "title": "WINDOWS POWERSHELL",
+            "text": "Copy-Item .env.example .env"
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "El archivo .env es local y no se sube a GitHub. DATABASE_URL indica dónde descargar la base; el manifiesto conserva el formato, el tamaño y la huella esperados. No se agregan claves ni credenciales de Google."
+          }
+        ]
+      },
+      {
+        "title": "El arranque del sistema",
+        "section": "1 · Inicio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "El proyecto incluye el motor Python, la configuración Docker y una API para consultar la base del estudio. El servicio utiliza el puerto <b>8000</b>. La base se conserva en <b>data/</b> y se reutiliza en los arranques siguientes."
+          },
+          {
+            "type": "code",
+            "title": "TERMINAL · en la carpeta del proyecto",
+            "text": "docker compose up --build -d\ndocker compose logs -f api"
+          },
+          {
+            "type": "text",
+            "text": "La primera construcción instala las dependencias. Si falta la base local, el sistema descarga el SQLite público y verifica su tamaño, huella e integridad. El mensaje <b>Application startup complete</b> indica que la API está preparada."
+          },
+          {
+            "type": "code",
+            "title": "ABRIR EN EL NAVEGADOR",
+            "text": "http://localhost:8000/docs\nhttp://localhost:8000/health"
+          },
+          {
+            "type": "text",
+            "text": "<b>/docs</b> presenta las consultas y sus parámetros. <b>/health</b> confirma que el servicio puede abrir la base verificada. <b>/tutorials/api</b> permite descargar este manual."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "localhost identifica al equipo donde se abre el navegador. Si se utiliza un túnel o reenvío de puertos, debe apuntar al puerto 8000 del equipo donde corre esta API. El nombre visible es API Tesis Robustez - MGD."
+          },
+          {
+            "type": "code",
+            "title": "EJEMPLO · túnel hacia otro equipo",
+            "text": "ssh -N -L 8000:127.0.0.1:8000 usuario@equipo-remoto"
+          },
+          {
+            "type": "text",
+            "text": "El túnel se mantiene abierto mientras se consulta localhost:8000/docs. Si el puerto local está ocupado, se usa 18000 en la primera posición del reenvío y se abre localhost:18000/docs. El servidor conserva el puerto 8000."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "Ctrl+C termina la lectura de los registros. El comando docker compose down detiene el servicio. La base permanece en data/ y se reutiliza al volver a arrancar."
+          }
+        ]
+      },
+      {
+        "title": "La base pública en Drive",
+        "section": "2 · Datos",
+        "blocks": [
+          {
+            "type": "diagram",
+            "labels": [
+              [
+                "Archivo público",
+              "Drive conserva study.sqlite."
+              ],
+              [
+                "Primer arranque",
+              "Descarga y verifica la base."
+              ],
+              [
+                "SQLite local",
+                "La API consulta en lectura."
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "text": "La descarga automática <b>no requiere una cuenta ni credenciales de Google</b>. El sistema utiliza un enlace público de lectura y descarga. No solicita OAuth, claves de API ni cookies del navegador del usuario."
+          },
+          {
+            "type": "text",
+            "text": "El enlace está incluido en <b>DATABASE_URL</b>, dentro de <b>.env.example</b>, y en <b>download_url</b>, dentro de <b>data/manifest.json</b>. El formato configurado es SQLite sin comprimir. El usuario clona el proyecto, copia la configuración y ejecuta Docker."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Situación al arrancar",
+              "Comportamiento"
+            ],
+            "rows": [
+              [
+                "Ya existe data/study.sqlite",
+                "Verifica su identidad y utiliza esa copia."
+              ],
+              [
+                "Existe data/study.sqlite.gz",
+                "Verifica el gzip, lo expande y utiliza la base local."
+              ],
+              [
+                "No existe ninguno de los dos",
+              "Descarga el SQLite público, verifica tamaño, SHA-256 e integridad y lo instala."
+              ]
+            ],
+            "widths": [
+              0.39,
+              0.61
+            ]
+          },
+          {
+            "type": "text",
+            "text": "La base ocupa aproximadamente <b>1,8GiB</b>. Se necesitan al menos <b>6GiB</b> libres, además del espacio de Docker. La copia local se reutiliza en los arranques siguientes."
+          },
+          {
+            "type": "callout",
+            "level": "warning",
+            "text": "La primera descarga puede demorar. La API empieza a recibir consultas después de verificar la base. No se reemplaza una huella para aceptar un archivo diferente."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "Si Drive limita temporalmente la descarga, study.sqlite también puede descargarse con el navegador desde el enlace del README y colocarse en data/. El arranque verifica esa copia antes de usarla."
+          }
+        ]
+      },
+      {
+        "title": "Las consultas desde el navegador",
+        "section": "3 · Uso sin programar",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "La dirección <b>http://localhost:8000/docs</b> presenta las operaciones disponibles. Cada renglón representa una consulta o una comprobación del sistema."
+          },
+          {
+            "type": "text",
+            "text": "La operación GET /api/v1/instruments enumera los instrumentos. <b>Try it out</b> habilita la prueba y <b>Execute</b> envía la consulta. La respuesta aparece debajo de la operación."
+          },
+          {
+            "type": "text",
+            "text": "<b>GET</b> pide datos usando parámetros de la ruta. <b>POST /api/v1/verify-case</b> recibe un cuerpo JSON con el instrumento, la configuración y el bloque que se desea comprobar."
+          },
+          {
+            "type": "diagram",
+            "labels": [
+              [
+                "Parámetros",
+                "Instrumento, bloque y filtros."
+              ],
+              [
+                "Servidor",
+                "Valida y ejecuta una consulta definida."
+              ],
+              [
+                "Respuesta",
+                "Código HTTP y datos JSON."
+              ]
+            ]
+          },
+          {
+            "type": "callout",
+            "level": "warning",
+            "text": "La API solo recibe parámetros validados. Las consultas se definen en el servidor y los valores se envían por separado para prevenir <b>inyecciones SQL</b>: intentos de hacer que un dato se ejecute como una instrucción. No se admite código SQL del cliente."
+          },
+          {
+            "type": "text",
+            "text": "<b>JSON</b> organiza nombres y valores. Por ejemplo, status es el nombre y ok es su valor. Las llaves agrupan campos y los corchetes agrupan listas."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "instruments muestra el universo disponible; executions identifica un caso. indicators, daily y operations consultan sus detalles. El campo execution_id relaciona esos pasos."
+          }
+        ]
+      },
+      {
+        "title": "El estado de la API",
+        "section": "4 · Estado",
+        "blocks": [
+          {
+            "type": "example",
+            "name": "health",
+            "fields": [
+              "status",
+              "database_version",
+              "storage_revision",
+              "read_only"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "status: ok confirma que la API pudo abrir la base verificada. read_only: true indica que las consultas no escriben sobre la entrega."
+          },
+          {
+            "type": "code",
+            "title": "LA MISMA CONSULTA DESDE UNA TERMINAL",
+            "text": "curl http://localhost:8000/health",
+            "response": false
+          },
+          {
+            "type": "callout",
+            "text": "Los registros de docker compose logs -f api muestran el avance del arranque. Durante la descarga y la verificación inicial, el sistema todavía no recibe consultas. El estado correcto aparece cuando esas tareas finalizan.",
+            "level": "warning"
+          }
+        ]
+      },
+      {
+        "title": "Los instrumentos disponibles",
+        "section": "5 · Consultas del estudio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "Esta consulta enumera los ETF disponibles y cuántas configuraciones y ejecuciones tiene cada uno."
+          },
+          {
+            "type": "example",
+            "name": "instruments",
+            "max_items": 2
+          },
+          {
+            "type": "text",
+            "text": "La respuesta completa contiene siete instrumentos: EEM, EFA, GLD, IWM, QQQ, SPY y TLT. Cada uno tiene 27 configuraciones y 135 ejecuciones."
+          },
+          {
+            "type": "callout",
+            "text": "items es la lista de resultados. En esta página se muestran sus dos primeros elementos; la respuesta real completa está guardada en docs/api-examples.json.",
+            "level": "info"
+          },
+          {
+            "type": "text",
+            "text": "GET /api/v1/study ofrece las cantidades generales: 189 configuraciones, 945 ejecuciones y 10.379.124 observaciones diarias lógicas."
+          }
+        ]
+      },
+      {
+        "title": "La identificación de un caso",
+        "section": "5 · Consultas del estudio",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "Los filtros instrument, configuration y length permiten encontrar una ejecución histórica. En el ejemplo se busca SPY, Media móvil de 200 sesiones y bloque de 1 año."
+          },
+          {
+            "type": "example",
+            "name": "execution",
+            "fields": [
+              "items",
+              "limit",
+              "has_more"
+            ],
+            "item_fields": [
+              "execution_id",
+              "case_key",
+              "length_years",
+              "engine_version",
+              "status",
+              "instrument_id",
+              "config_key",
+              "family"
+            ],
+            "symbolic_ids": true
+          },
+          {
+            "type": "text",
+            "text": "execution_id identifica la ejecución utilizada para consultar el detalle. En este manual se representa como {execution_id}; la respuesta del sistema contiene su valor completo. engine_version conserva la versión que produjo el caso original, que puede diferir del motor v9 disponible para comprobarlo."
+          },
+          {
+            "type": "callout",
+            "text": "GET /api/v1/configurations?instrument=SPY enumera las configuraciones registradas. El parámetro limit define cuántas filas devuelve una página y offset cuántas omite. El campo has_more indica si quedan más resultados.",
+            "level": "info"
+          }
+        ]
+      },
+      {
+        "title": "La lectura de los indicadores",
+        "section": "6 · Detalle de una ejecución",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "El identificador de ejecución permite consultar una métrica concreta. OOS_continuous representa el recorrido OOS continuo, reunido a través de las ventanas. En los ejemplos, {execution_id} ocupa el lugar del identificador completo del caso."
+          },
+          {
+            "type": "example",
+            "name": "indicators",
+            "fields": [
+              "items",
+              "has_more"
+            ],
+            "item_fields": [
+              "metric",
+              "numeric_value",
+              "unit",
+              "status",
+              "alternative"
+            ],
+            "approximate": true
+          },
+          {
+            "type": "text",
+            "text": "metric identifica la medida y numeric_value muestra su valor numérico. En este manual se aproxima para facilitar la lectura: 0.067 representa aproximadamente 6,7%. La API también devuelve exact_value, que conserva el texto decimal original. alternative distingue la estrategia de comprar y mantener."
+          },
+          {
+            "type": "callout",
+            "text": "fraction es una fracción: 0,1 equivale a 10%. Los bloques JSON usan punto decimal, como requiere ese formato. calculated indica que la medida fue calculada. Una ausencia o un estado distinto no se transforma automáticamente en cero.",
+            "level": "warning"
+          }
+        ]
+      },
+      {
+        "title": "El recorrido diario",
+        "section": "6 · Detalle de una ejecución",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "La operación daily recupera observaciones desde los bloques comprimidos. El ejemplo muestra una fila OOS de la estrategia e identifica la ventana, el tramo y el capital correspondiente."
+          },
+          {
+            "type": "example",
+            "name": "daily",
+            "fields": [
+              "items",
+              "limit",
+              "offset",
+              "has_more"
+            ],
+            "item_fields": [
+              "window_id",
+              "segment",
+              "alternative",
+              "row_kind",
+              "equity",
+              "daily_return"
+            ],
+            "approximate": true
+          },
+          {
+            "type": "text",
+            "text": "La fila base puede tener daily_return vacío porque establece el punto de partida. row_kind la distingue de una observación posterior. El capital del ejemplo se muestra sin decimales; la API conserva su precisión original."
+          },
+          {
+            "type": "callout",
+            "text": "La operación /operations presenta las operaciones y sus costos. La consulta /daily permite filtrar por segment, alternative y window_id. El aumento de offset permite recorrer las páginas siguientes.",
+            "level": "info"
+          }
+        ]
+      },
+      {
+        "title": "Los recuentos por estrategia",
+        "section": "7 · Consultas por parámetros",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "La operación <b>GET /api/v1/configuration-counts</b> cuenta las configuraciones de cada familia. La consulta completa ya está definida en el servidor: no se envía código para agrupar los datos."
+          },
+          {
+            "type": "example",
+            "name": "configuration-counts"
+          },
+          {
+            "type": "text",
+            "text": "MOM identifica Momentum; MR-Z, Reversión; y P-SMA, Media móvil. total es la cantidad de configuraciones. Un instrument nulo indica que se incluyeron los siete ETF."
+          },
+          {
+            "type": "code",
+            "title": "LA MISMA OPERACIÓN PARA UN INSTRUMENTO",
+            "text": "GET /api/v1/configuration-counts?instrument=SPY"
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "Con instrument=SPY, la respuesta contiene 5 configuraciones MOM, 17 MR-Z y 5 P-SMA. Cambia el instrumento seleccionado, mientras la operación del servidor permanece definida."
+          }
+        ]
+      },
+      {
+        "title": "Los filtros y las páginas",
+        "section": "7 · Consultas por parámetros",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "Cada operación admite una lista concreta de filtros. Los nombres y valores permitidos aparecen en <b>/docs</b>; un campo adicional o un valor inválido se rechaza."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Operación",
+              "Filtros principales"
+            ],
+            "rows": [
+              [
+                "configuration-counts",
+                "instrument: SPY, QQQ, IWM, EFA, EEM, TLT o GLD."
+              ],
+              [
+                "configurations",
+                "instrument y family: P-SMA, MOM o MR-Z."
+              ],
+              [
+                "executions",
+                "instrument, configuration y length: 1, 2, 3, 5 o 7."
+              ],
+              [
+                "indicators",
+                "segment y metric."
+              ],
+              [
+                "daily",
+                "segment: IS u OOS; alternative: strategy o buy_hold; window_id."
+              ],
+              [
+                "operations",
+                "limit y offset para recorrer las operaciones."
+              ]
+            ],
+            "widths": [
+              0.34,
+              0.66
+            ]
+          },
+          {
+            "type": "text",
+            "text": "<b>limit</b> indica cuántos resultados devuelve una página, con un máximo de 1000. <b>offset</b> indica cuántos resultados se omiten desde el inicio. Ambos están disponibles en configurations, executions, indicators, daily y operations."
+          },
+          {
+            "type": "code",
+            "title": "EJEMPLO · dos páginas de configuraciones",
+            "text": "GET /api/v1/configurations?instrument=SPY&limit=2&offset=0\nGET /api/v1/configurations?instrument=SPY&limit=2&offset=2"
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "La primera página muestra los primeros dos resultados; la segunda muestra los dos siguientes. has_more=true indica que quedan resultados. Para conservar la misma selección, solo cambia offset."
+          }
+        ]
+      },
+      {
+        "title": "La comprobación de un caso",
+        "section": "8 · Motor Python",
+        "blocks": [
+          {
+            "type": "diagram",
+            "labels": [
+              [
+                "Caso registrado",
+                "SPY + sma200 + 1 año."
+              ],
+              [
+                "Motor v9",
+                "Repite el cálculo en memoria."
+              ],
+              [
+                "Comparación",
+                "Contrasta con la ejecución original."
+              ]
+            ]
+          },
+          {
+            "type": "example",
+            "name": "verify",
+            "fields": [
+              "engine_version",
+              "instrument",
+              "config_key",
+              "length_years",
+              "daily_rows",
+              "operations",
+              "metrics",
+              "passed"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "passed: true indica que el caso se reprodujo y sus comparaciones fueron satisfactorias. En este ejemplo se comprobaron 13.656 filas diarias, 260 operaciones y 770 indicadores. Los recuentos incluyen IS, OOS y ambas alternativas del caso: la estrategia y comprar y mantener."
+          },
+          {
+            "type": "callout",
+            "text": "La respuesta completa incluye comparisons. El caso se calcula en memoria y no se agrega a executions. Esta comprobación no equivale a recalcular los 945 casos. Se admite una comprobación simultánea por proceso.",
+            "level": "info"
+          }
+        ]
+      },
+      {
+        "title": "Errores que ayudan a corregir",
+        "section": "9 · Resolver problemas",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "<b>422 · Parámetro inválido.</b> Algún valor o campo no está admitido. Los bloques disponibles son 1, 2, 3, 5 y 7. Los instrumentos, las familias y los límites también se validan."
+          },
+          {
+            "type": "code",
+            "title": "EJEMPLO · un bloque no disponible",
+            "text": "GET /api/v1/executions?instrument=SPY&length=4"
+          },
+          {
+            "type": "text",
+            "text": "La operación anterior recibe 422 porque length=4 no es una opción. La corrección consiste en elegir un bloque permitido. Un parámetro extra tampoco se ignora: se rechaza para que la selección sea explícita."
+          },
+          {
+            "type": "text",
+            "text": "<b>404 · Ejecución no encontrada.</b> El identificador no corresponde a un caso registrado. executions permite conocer los identificadores completos disponibles. Una ruta que no existe también devuelve 404."
+          },
+          {
+            "type": "text",
+            "text": "<b>400 · Caso no disponible.</b> Los parámetros de comprobación tienen un formato válido, pero no corresponden a un caso que el motor pueda reproducir."
+          },
+          {
+            "type": "text",
+            "text": "<b>429 · Comprobación en curso.</b> El motor ya está comprobando un caso. La operación vuelve a estar disponible cuando termina ese proceso."
+          },
+          {
+            "type": "callout",
+            "level": "important",
+            "text": "<b>409 · Diferencia de comprobación.</b> El cálculo repetido no coincide con lo esperado. La respuesta permite identificar la diferencia. Ese caso requiere revisión antes de usarlo como evidencia reproducida."
+          },
+          {
+            "type": "callout",
+            "level": "warning",
+            "text": "La ausencia de la base impide el arranque hasta que se incorpora el archivo correcto o se dispone del enlace público. Si el tamaño o SHA-256 difieren, el sistema conserva el rechazo y no modifica las huellas esperadas."
+          }
+        ]
+      },
+      {
+        "title": "Qué se comprobó",
+        "section": "10 · Evidencia y versiones",
+        "blocks": [
+          {
+            "type": "text",
+            "text": "Los ejemplos provienen de consultas HTTP cuyos cuerpos completos se conservan en <b>docs/api-examples.json</b>. Los fragmentos muestran los campos relevantes. {execution_id} representa de forma simbólica el identificador completo de un caso. Los bloques que indican «valores aproximados» redondean solo la presentación. Las respuestas originales conservan su precisión en docs/api-examples.json."
+          },
+          {
+            "type": "text",
+            "text": "Las pruebas verifican cantidades, recuentos por familia, filtros, paginación, detalle diario, rechazo de campos adicionales, entradas de inyección, ausencia de rutas SQL y reproducción de un caso real."
+          },
+          {
+            "type": "text",
+            "text": "Las pruebas de descarga utilizan bases mínimas para comprobar SQLite directo, gzip, reutilización local y rechazo de archivos alterados. El transporte de Drive se invoca sin cookies de la cuenta. El enlace público y sus comprobaciones se documentan en docs/validation."
+          },
+          {
+            "type": "callout",
+            "level": "info",
+            "text": "tests/test_api.py contiene las pruebas. docs/validation conserva resultados y comprobaciones. README.md explica el arranque, la descarga, las rutas y el uso del motor."
+          },
+          {
+            "type": "text",
+            "text": "<b>La base se consulta en lectura.</b> verify-case recalcula en memoria y no agrega una ejecución a la entrega. analyze también utiliza un espacio temporal en memoria."
+          },
+          {
+            "type": "text",
+            "text": "API v2 · Manual v6 · Base v2r3 · Motor v9. Las versiones del sistema, del manual y de la tesis son independientes."
+          }
+        ]
+      }
+    ],
+    "version": 6
+  }
+}

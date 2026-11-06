@@ -1,0 +1,406 @@
+{
+  "recorded_at": "2026-11-06T11:48:20.786310+00:00",
+  "transport": "HTTP",
+  "base_url": "http://192.168.1.177:8000",
+  "examples": {
+    "health": {
+      "method": "GET",
+      "path": "/health",
+      "request": null,
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "api_version": "2.0.0",
+        "database_version": 2,
+        "storage_revision": 3,
+        "read_only": true
+      }
+    },
+    "study": {
+      "method": "GET",
+      "path": "/api/v1/study",
+      "request": null,
+      "status": 200,
+      "response": {
+        "current": {
+          "database_version": 2,
+          "schema_version": 4,
+          "storage_revision": 3,
+          "engine_version": 9,
+          "study_id": "p06-seven-etfs-20261025",
+          "created_at": "2026-10-29T11:36:16.429666+00:00",
+          "tables": 6,
+          "canonical_executions": 945,
+          "daily_logical_rows": 10379124,
+          "daily_blocks": 10206,
+          "retention_record": "system/retention-v2-r3",
+          "delivery_record": "system/delivery-v9",
+          "dictionary_record": "system/dictionary-v9",
+          "storage_record": "system/storage-v2-r3",
+          "verification_detail": "temporary_only",
+          "read_contract": "SQL for market data, identities, indicators and block coverage. Python for exact daily observations."
+        },
+        "physical_rows": {
+          "documents": 299,
+          "market_data": 25234,
+          "configurations": 189,
+          "executions": 945,
+          "daily_results": 10206,
+          "evaluation_results": 380646
+        },
+        "logical_daily_rows": 10379124,
+        "logical_total_rows": 10786437,
+        "scope": "Campaña histórica; sin agregar casos ni modificar los resultados."
+      }
+    },
+    "instruments": {
+      "method": "GET",
+      "path": "/api/v1/instruments",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "instrument_id": "EEM",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "EFA",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "GLD",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "IWM",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "QQQ",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "SPY",
+            "configurations": 27,
+            "executions": 135
+          },
+          {
+            "instrument_id": "TLT",
+            "configurations": 27,
+            "executions": 135
+          }
+        ]
+      }
+    },
+    "configurations": {
+      "method": "GET",
+      "path": "/api/v1/configurations?instrument=SPY&family=P-SMA&limit=1",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "configuration_key": 1,
+            "configuration_id": "SPY-P-SMA-150",
+            "source_id": "campaigns/p05-spy-sensitivity-20261024/configurations.csv",
+            "source_row": 1,
+            "instrument_id": "SPY",
+            "config_key": "sma150",
+            "family": "P-SMA",
+            "sessions": 150,
+            "entry_threshold": "",
+            "label": "P-SMA(150)",
+            "broad": 1,
+            "local": 0,
+            "details": "{\"config_key\":\"sma150\",\"configuration_id\":\"SPY-P-SMA-150\",\"instrument_id\":\"SPY\",\"family\":\"P-SMA\",\"sessions\":\"150\",\"entry_threshold\":\"\",\"label\":\"P-SMA(150)\"}"
+          }
+        ],
+        "limit": 1,
+        "offset": 0,
+        "has_more": true
+      }
+    },
+    "execution": {
+      "method": "GET",
+      "path": "/api/v1/executions?instrument=SPY&configuration=sma200&length=1&limit=1",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "execution_id": "p05-spy-sensitivity-20261024-sma200-L1",
+            "campaign_id": "p05-spy-sensitivity-20261024",
+            "case_key": "sma200-L1",
+            "length_years": 1,
+            "engine_version": 4,
+            "status": "verified",
+            "instrument_id": "SPY",
+            "config_key": "sma200",
+            "family": "P-SMA"
+          }
+        ],
+        "limit": 1,
+        "offset": 0,
+        "has_more": false
+      }
+    },
+    "indicators": {
+      "method": "GET",
+      "path": "/api/v1/executions/p05-spy-sensitivity-20261024-sma200-L1/indicators?segment=OOS_continuous&metric=return_annualized&limit=2",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "source_id": "campaigns/p05-spy-sensitivity-20261024/metrics.csv",
+            "source_row": 2340,
+            "metric": "return_annualized",
+            "exact_value": "0.06703694194133587",
+            "numeric_value": 0.06703694194133587,
+            "unit": "fraction",
+            "status": "calculated",
+            "execution_id": "p05-spy-sensitivity-20261024-sma200-L1",
+            "instrument_id": "SPY",
+            "window_id": "all_oos",
+            "segment": "OOS_continuous",
+            "alternative": "strategy",
+            "scale": null,
+            "group_id": null
+          },
+          {
+            "source_id": "campaigns/p05-spy-sensitivity-20261024/metrics.csv",
+            "source_row": 2347,
+            "metric": "return_annualized",
+            "exact_value": "0.14114939747970998",
+            "numeric_value": 0.14114939747970998,
+            "unit": "fraction",
+            "status": "calculated",
+            "execution_id": "p05-spy-sensitivity-20261024-sma200-L1",
+            "instrument_id": "SPY",
+            "window_id": "all_oos",
+            "segment": "OOS_continuous",
+            "alternative": "buy_hold",
+            "scale": null,
+            "group_id": null
+          }
+        ],
+        "limit": 2,
+        "offset": 0,
+        "has_more": false,
+        "units": "fraction = fracción (0.10 = 10%); exact_value conserva el texto original; consultar status antes de interpretar."
+      }
+    },
+    "daily": {
+      "method": "GET",
+      "path": "/api/v1/executions/p05-spy-sensitivity-20261024-sma200-L1/daily?segment=OOS&alternative=strategy&limit=1",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "session_date": "2017-12-13",
+            "source_row": 55271,
+            "observed_at": "2017-12-13T16:00:00-05:00",
+            "signal_date": "",
+            "signal_close": "",
+            "sma_200": "",
+            "signal_mean": "",
+            "signal_sd": "",
+            "momentum_reference": "",
+            "signal_value": "",
+            "operation_reason": "base",
+            "adjusted_open": "",
+            "adjusted_close": "232.99000549316406",
+            "cash": "10000",
+            "units": "0",
+            "equity": "10000.00000000000000",
+            "previous_equity": "",
+            "daily_return": "",
+            "normalized_equity": "1",
+            "drawdown_signed": "0",
+            "commission": "0",
+            "vat": "0",
+            "spread_cost": "0",
+            "slippage_cost": "0",
+            "total_cost": "0",
+            "rate_id": "",
+            "rf_daily": "",
+            "excess_return": "",
+            "operation_source_row": null,
+            "operation_id": null,
+            "executed_at": null,
+            "execution_price": null,
+            "quantity": null,
+            "notional": null,
+            "execution_id": "p05-spy-sensitivity-20261024-sma200-L1",
+            "window_id": "w001",
+            "source_id": "campaigns/p05-spy-sensitivity-20261024/daily-results.csv.gz",
+            "segment": "OOS",
+            "alternative": "strategy",
+            "row_kind": "base",
+            "operation": "none",
+            "signal_valid": "",
+            "target_exposure": "",
+            "operation_source_id": null,
+            "case_key": "sma200-L1",
+            "case_id": "SPY-P-SMA-200-L1",
+            "config_key": "sma200",
+            "family": "P-SMA",
+            "length_years": 1,
+            "rule_label": "P-SMA(200)"
+          }
+        ],
+        "limit": 1,
+        "offset": 0,
+        "has_more": true,
+        "scope": "Observaciones recuperadas de bloques comprimidos; se conservan decimales, vacíos y estados."
+      }
+    },
+    "operations": {
+      "method": "GET",
+      "path": "/api/v1/executions/p05-spy-sensitivity-20261024-sma200-L1/operations?limit=1",
+      "request": null,
+      "status": 200,
+      "response": {
+        "items": [
+          {
+            "execution_id": "p05-spy-sensitivity-20261024-sma200-L1",
+            "window_id": "w001",
+            "segment": "IS",
+            "alternative": "strategy",
+            "operation_id": "w001-IS-strategy-316",
+            "session_date": "2017-04-05",
+            "executed_at": "2017-04-05T09:30:00-04:00",
+            "signal_date": "2017-04-04",
+            "side": "buy",
+            "reason": "signal",
+            "reference_open": "204.34329340648705",
+            "execution_price": "204.404596394508996115",
+            "quantity": "48.71626554",
+            "notional": "9957.82859555142685265716837710",
+            "commission": "34.852400084429993984300089319850",
+            "vat": "7.31900401773029873670301875716850",
+            "spread_cost": "1.99096842858171085727425140",
+            "slippage_cost": "0.99548421429085542863712570",
+            "total_cost": "45.15785674503285900691448517701850",
+            "cash_after": "3.4641285462182851482298150E-7",
+            "units_after": "48.71626554",
+            "case_key": "sma200-L1",
+            "case_id": "SPY-P-SMA-200-L1",
+            "config_key": "sma200",
+            "family": "P-SMA",
+            "length_years": "1",
+            "rule_label": "P-SMA(200)"
+          }
+        ],
+        "limit": 1,
+        "offset": 0,
+        "has_more": true
+      }
+    },
+    "configuration-counts": {
+      "method": "GET",
+      "path": "/api/v1/configuration-counts",
+      "request": null,
+      "status": 200,
+      "response": {
+        "instrument": null,
+        "items": [
+          {
+            "family": "MOM",
+            "total": 35
+          },
+          {
+            "family": "MR-Z",
+            "total": 119
+          },
+          {
+            "family": "P-SMA",
+            "total": 35
+          }
+        ]
+      }
+    },
+    "configuration-counts-spy": {
+      "method": "GET",
+      "path": "/api/v1/configuration-counts?instrument=SPY",
+      "request": null,
+      "status": 200,
+      "response": {
+        "instrument": "SPY",
+        "items": [
+          {
+            "family": "MOM",
+            "total": 5
+          },
+          {
+            "family": "MR-Z",
+            "total": 17
+          },
+          {
+            "family": "P-SMA",
+            "total": 5
+          }
+        ]
+      }
+    },
+    "verify": {
+      "method": "POST",
+      "path": "/api/v1/verify-case",
+      "request": {
+        "instrument": "SPY",
+        "configuration": "sma200",
+        "length": 1
+      },
+      "status": 200,
+      "response": {
+        "execution_id": "api-check-2b743af60c9a4d10af790097625a00fc",
+        "engine_version": 9,
+        "instrument": "SPY",
+        "config_key": "sma200",
+        "length_years": 1,
+        "created_at": "2026-11-06T11:48:19.974929+00:00",
+        "runtime": {
+          "python": "3.13.15",
+          "sqlite": "3.46.1",
+          "code": {
+            "engine.py": "5878beb310c3c7f2d4ed304e9ead4cb230a87a4dee125e17073c39340cde3bc3",
+            "metrics.py": "36b4a813c685f4ed16aabd7b2dd136d140207f5cc8e5b8985cecc3d3737a23b9",
+            "design.py": "ab8312c2b4c6142cc0543abcb48b8142fb0ddb8ed366d04b258b2bbaa42d969f",
+            "quality.py": "883df032bf3ab742bcdfe11de795b658b9e2b9c216313bd0d49d7bd8b5a90ee8",
+            "runner.py": "78aeee7160fc2c9538701c6804b549ca331315bbd55f4dcb0915ac9d7da39e0a",
+            "database.py": "abf687560a038d7a46eddbc2038adc80c808634fb97bfa77e2b275ed0d19a579"
+          }
+        },
+        "daily_rows": 13656,
+        "operations": 260,
+        "metrics": 770,
+        "inputs_quality_checks": 5,
+        "passed": true,
+        "comparisons": {
+          "daily-results.csv.gz": {
+            "rows": 13656,
+            "equivalent": true,
+            "representation_differences_within_1e_12": 0
+          },
+          "operations.csv": {
+            "rows": 260,
+            "equivalent": true,
+            "representation_differences_within_1e_12": 0
+          },
+          "metrics.csv": {
+            "rows": 770,
+            "equivalent": true,
+            "representation_differences_within_1e_12": 0
+          }
+        }
+      }
+    }
+  }
+}

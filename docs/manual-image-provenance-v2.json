@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "tool": "imagegen (herramienta integrada)",
+  "purpose": "Ilustración de portada del manual de la API, independiente del manuscrito.",
+  "assets": [
+    {
+      "manual": "api",
+      "file": "docs/images/cover-api-v2.png",
+      "prompt": "Use case: stylized-concept. Asset type: landscape cover illustration for a Spanish API user manual accompanying a research dashboard manual, aspect ratio 3:2, 1536x1024. Create a refined editorial illustration: an open instruction manual in the foreground, behind it a clear visual sequence of a small request card, a central elegant API gateway, a local database cylinder, and a structured response card with paired curly-brace symbols and neatly organized short horizontal marks. Show the request and response as distinct directional connector arrows; the visual should communicate asking a question, reading stored data, and returning an organized answer. A subtle small magnifying lens suggests understanding and checking responses. Academic software and data-analysis context. Calm polished semi-isometric paper-and-vector aesthetic, delicate depth, crisp precise edges, mostly white background. Color palette only petroleum blue #0F3D4C, slate blue #6B8794, pale gray #D9E2E7, restrained teal #2A9D8F, tiny muted gold #C9A227 accents. Center composition with comfortable 8 percent white safe margins on all sides; the illustration will sit inside an existing page border. No outer frame. NO alphabetic text, words, numbers, dates, timestamps, URLs, API label, logos, watermarks, people, currency symbols, profit arrows or dark/neon background. Curly-brace symbols are allowed. Make an approachable instructional manual and a request/database/response flow recognizable, not a screenshot."
+    }
+  ]
+}
