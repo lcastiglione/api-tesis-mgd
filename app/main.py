@@ -10,13 +10,11 @@ from typing import Annotated, Iterator, Literal
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
-from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from calculator.database import Database
-from calculator.runner import run_case
 from .preparation import DatabasePreparation
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,7 +54,7 @@ async def lifespan(application: FastAPI):
         preparation.close()
 
 
-app = FastAPI(title=API_TITLE,version=VERSION,lifespan=lifespan,docs_url=None,
+app = FastAPI(title=API_TITLE,version=VERSION,lifespan=lifespan,docs_url=None,redoc_url=None,
              description='Consulta de datos históricos y comprobación de casos. La base se abre en modo de solo lectura. '
              'Las fracciones se conservan: 0.10 representa 10%.\n\n'
              '⚠️ **Advertencia:** la API recibe únicamente parámetros validados. '
@@ -143,10 +141,11 @@ def status(request: Request) -> JSONResponse:
                         headers={'Cache-Control':'no-store'})
 
 
-@app.get('/docs',include_in_schema=False,response_class=HTMLResponse)
-def documentation() -> HTMLResponse:
-    """Comparte el nombre de la API en el encabezado y la pestaña del navegador."""
-    return get_swagger_ui_html(openapi_url=app.openapi_url,title=API_TITLE)
+@app.get('/docs',include_in_schema=False)
+@app.get('/redoc',include_in_schema=False)
+def documentation() -> RedirectResponse:
+    """Conserva los enlaces anteriores y abre la consola personalizada."""
+    return RedirectResponse('/')
 
 
 @app.get('/health',tags=['Estado'],dependencies=[Depends(require_ready)])
@@ -296,6 +295,7 @@ def verify_case(request: VerificationRequest) -> dict:
     if not SIMULATION_LOCK.acquire(blocking=False):
         raise HTTPException(429,'Ya hay una comprobación en curso; intentar al finalizar.')
     try:
+        from calculator.runner import run_case
         with open_database() as database:
             try:
                 return run_case(database,request.instrument,request.configuration,request.length,

@@ -43,9 +43,9 @@ def download_archive(url: str, destination: Path, max_bytes: int, *,
     if parsed.hostname in {'drive.google.com','docs.google.com'}:
         import gdown
         gdown.download(url=url,output=str(destination),use_cookies=False,quiet=False,
-                       timeout=60,retries=2,resume=True,progress=received,cancel=cancel)
+                       timeout=(5,10),retries=0,resume=True,progress=received,cancel=cancel)
     else:
-        with urlopen(url,timeout=60) as response, destination.open('wb') as output:
+        with urlopen(url,timeout=10) as response, destination.open('wb') as output:
             total = 0
             for block in iter(lambda: response.read(1024*1024),b''):
                 total += len(block)

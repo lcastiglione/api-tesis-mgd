@@ -13,15 +13,17 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 from app import main
+from app.web import ApiRuntime, create_app
 from app.bootstrap import download_archive,ensure_database
 
 
 class ApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.client = TestClient(main.app)
+        cls.runtime = ApiRuntime()
+        cls.client = TestClient(create_app(cls.runtime))
         cls.client.__enter__()
-        if not main.app.state.preparation.ready_event.wait(timeout=120):
+        if not cls.runtime.api_ready.wait(timeout=30) or not cls.runtime.preparation.ready_event.wait(timeout=120):
             raise AssertionError('La base real no quedó preparada: '+str(main.app.state.preparation.snapshot()))
         cls.execution = cls.client.get('/api/v1/executions',params={
             'instrument':'SPY','configuration':'sma200','length':1}).json()['items'][0]['execution_id']
@@ -157,6 +159,10 @@ class ApiTests(unittest.TestCase):
             Path(output,'verify-case.json').write_text(json.dumps(result,indent=2)+'\n')
 
     def test_api_manual_and_parameter_only_contract(self) -> None:
+        for route in ['/docs','/redoc']:
+            redirect = self.client.get(route,follow_redirects=False)
+            self.assertEqual(redirect.status_code,307)
+            self.assertEqual(redirect.headers['location'],'/')
         self.assertEqual(self.client.get('/viewer/').status_code,404)
         self.assertEqual(self.client.get('/tutorials/powerbi').status_code,404)
         response=self.client.get('/tutorials/api')
@@ -167,7 +173,7 @@ class ApiTests(unittest.TestCase):
         version=catalog['api']['version']
         self.assertEqual(response.content,(main.ROOT/'docs'/f'api-tutorial-v{version}.pdf').read_bytes())
         contract=self.client.get('/openapi.json').json()
-        self.assertEqual(contract['info']['version'],'2.3.0')
+        self.assertEqual(contract['info']['version'],'2.4.0')
         self.assertNotIn('/api/v1/query',contract['paths'])
         self.assertNotIn('/api/v1/schema',contract['paths'])
         self.assertIn('inyecciones SQL',contract['info']['description'])

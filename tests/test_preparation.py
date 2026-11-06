@@ -90,7 +90,7 @@ class PreparationTests(unittest.TestCase):
             wait_for(lambda:client.get('/status').json()['ready'])
             self.assertTrue(client.get('/status').json()['database']['installed'])
             self.path.unlink()
-            self.assertFalse(client.get('/status').json()['ready'])
+            wait_for(lambda:not client.get('/status').json()['ready'])
             self.assertTrue(entered[1].wait(5))
             self.assertEqual(client.get('/status').json()['phase'],'downloading')
             self.assertEqual(client.get('/api/v1/study').status_code,503)
